@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <windows.h>
 
 int cmdflag[16];
 char filer[6] = {'-' , '-' , 'f' , 'i' , 'l' , 'e'};
@@ -9,7 +10,7 @@ char addressrep[100][100];
 
 void zeroaddress(){
     for ( int counter1 = 0 ; counter1 < 10000 ; counter1++){
-        addressrep[counter1/100][counter1%100] = '0' ;
+        addressrep[counter1/100][counter1%100] = NULL ;
     }
 }
 int checkval(char a , char b , char c , char d);
@@ -44,26 +45,50 @@ char cmd[16][4]={
 'f' , 'o' , 'g' , ' '
 };
 int flag = 0 ;
-void open(char addd[]){
-    fopen(addd , "w");
+
+
+int isorbe(char addd[]){
+    int check = fopen(addd , "r");
+    if ( check != 0){
+        printf("what are you doing dude , file already exist !! \n");
+        fclose(addd);
+    }
+        FILE * ptr =fopen(addd , "w");
+        fclose(ptr);
+        
 }
+
+
 int maf(){
+    zeroaddress();
     char temp;
-    int a = 0;
+    int a = 0 , flag = 0;
     char aray[6];
     char address[100];
     scanf("%s" , &aray);
     for(int z=0 ; z < 6 ; z++){
         if(aray[z] != filer[z]){
-            printf("you should use <<--file>> befor your address dude");
+            printf("you should use <<--file>> befor your address dude\n");
             return 0;
         }
     }
     scanf(" ");
-    for (int counter2 = 0 ; counter2 < 100 ; counter2++){
+    int counter2 = 0;
+    scanf("%c" , &temp);
+        if(temp != '"'){
+            address[0] = temp ; 
+            counter2 = 1;
+        }
+
+    for (counter2 ; counter2 < 100 ; counter2++){
         scanf("%c" , &temp );
-        if(temp != '\n'){
+        if(temp == '"'){
+            address[counter2] = '\0' ;
+            counter2 += 150 ;
+        }
+        if(temp != '\n' ){
             address[counter2] = temp ;
+            address[counter2+1]='\0';
         }
         else{
             counter2 += 150 ;
@@ -77,12 +102,61 @@ int maf(){
         }
     }
     a = 0;
-    for (int addr = 0 ; addr < 4 && addressrep[addr][0] != NULL; addr++){
+    for (int addr = 0 ; addr < 100 && addressrep[addr][0] != NULL; addr++){
         int ret = 0;
         ret = mkdir(addressrep[addr] , 0755);
         }
-        open(address);
+        isorbe(address);
 
+}
+
+int cat(){
+    char tempcat ;
+    char tempscan ;
+    char addresscat[100] , cats[1000000];
+    char aray2[6];
+    scanf("%s" , &aray2);
+    for(int z=0 ; z < 6 ; z++){
+        if(aray2[z] != filer[z]){
+            printf("you should use <<--file>> befor your address dude\n");
+            return 0;
+        }
+    }
+    scanf(" ");
+    int counter3 = 0;
+    scanf("%c" , &tempcat);
+        if(tempcat != '"'){
+            addresscat[0] = tempcat ; 
+            counter3 = 1;
+        }
+
+    for (counter3 ; counter3 < 100 ; counter3++){
+        scanf("%c" , &tempcat );
+        if(tempcat == '"'){
+            addresscat[counter3] = '\0' ;
+            counter3 += 150 ;
+        }
+        if(tempcat != '\n' ){
+            addresscat[counter3] = tempcat ;
+            addresscat[counter3+1]='\0';
+        }
+        else{
+            counter3 += 150 ;
+        }
+    }
+    printf("\n");
+    FILE *cat = fopen(addresscat , "r");
+    if(cat == NULL){
+        printf("the file you intered doesn't exist bro !! \n");
+        return 0;
+    }   
+        printf("--------------------------------------------------------------------------------------\n");
+        while(fgets(cats , 1000000 , cat)){
+            printf("%s" , cats);
+        }
+        fclose(cat);
+        printf("\n--------------------------------------------------------------------------------------");
+    
 }
 
 int runcommand(int cmdnum){
@@ -91,6 +165,12 @@ int runcommand(int cmdnum){
     }
     else if(cmdnum == 1){
         maf();
+    }
+    else if(cmdnum == 2){
+
+    }
+    else if(cmdnum == 3){
+        cat();
     }
 }
 
@@ -127,7 +207,7 @@ int checkval(char a , char b , char c , char d){
             return 0;
         }
     }
-    printf("command isn't valid , try again or see command palette with <<prc >>");
+    printf("command isn't valid , try again or see command palette with <<prc >>\n");
 
 }
 
@@ -142,7 +222,4 @@ int get_command() {
 int main (){
 printf("if you are a noobie and dont know the commands you can use <<prc >> command to see them :)\n\n");
 get_command(); 
-/*FILE *fp;
-fp = fopen("root//asghar//asharmargazide.txt", "w");*/  
-
 }
