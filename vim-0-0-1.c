@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <math.h>
 #include <windows.h>
 
 int cmdflag[16];
 char filer[6] = {'-' , '-' , 'f' , 'i' , 'l' , 'e'};
+char str[5] = {'-' , '-' , 's' , 't' , 'r'};
+char poser[5] = {'-' , '-' , 'p' , 'o' , 's'};
+char sizer[5] = {'-' , 's' , 'i' , 'z' , 'z'};
 char addressrep[100][100];
 
 
@@ -167,11 +171,200 @@ int runcommand(int cmdnum){
         maf();
     }
     else if(cmdnum == 2){
-
+        insert();
     }
     else if(cmdnum == 3){
         cat();
     }
+    else if(cmdnum == 4){
+        //rmv();
+    }
+}
+
+void shift(char zt[] , long long a , long long z){
+    for(z ; z < a ; z++){
+        zt[z] = zt[z+1];
+    }
+    zt[a] = '\0';
+}
+
+void pardazesh(char mt[] , long long h ){
+    mt[h+1] = '\0';
+    if( mt[0] == '"'){
+        shift(mt , h , 0);
+        mt[h] = '\0' ; 
+    }
+
+     for ( long long mat = 0 ; mat < h ; mat++ ){
+        if ( mt[mat] == 92 && mt[mat+1] == 92){
+                shift(mt , h , mat);
+                mat += 1 ;
+                continue;
+            }
+          if (mt[mat] == 92 && mt[mat+1] == 'n' ){
+            mt[mat] = '\n';
+            shift(mt , h , mat+1);
+            continue;
+          }
+     }
+}
+
+long long sakhtmatn(char txt[] , char nim[] , char nim2[] , int a , int b){
+     int khatk = 1 ;
+     int chark = 0 ;
+     long long pp = 0 ;
+     while(khatk < a && txt[pp] != '\0'){
+        nim[pp] = txt[pp];
+        nim[pp+1] = '\0';
+        if(txt[pp] == '\n'){
+            khatk++;
+        }
+        pp++;
+     }
+     if(txt[pp] == '\0'){
+        for(int x = 0 ; x < a-khatk ; x++){
+            nim[pp+x] = '\n';
+            nim[pp+x+1] = '\0';
+        }
+        for(int y = 0 ; y < b ; y++){
+            nim[pp+a-khatk+y] = ' ';
+            nim[pp+a-khatk+y+1] = '\0';
+        }
+     }
+     if(khatk == a){
+        for(int zz = 0 ; zz < b ; zz++){
+            if(txt[pp+zz] != '\n' && txt[pp+zz] != '\0'){
+                nim[pp+zz] = txt[pp+zz];
+                nim[pp+zz+1] = '\0' ;
+            }
+        }
+     }
+     for(long long gg = pp+b ; txt[gg] != '\0' ; gg++){
+        nim2[gg-pp-b] = txt[gg] ;
+        nim2[gg-pp-b+1] = '\0';
+     }
+     return pp ;
+}
+
+int insert(){
+    long long tedadhorof , jaygah , shoro;
+    int posline = 0 , poschar = 0 ;
+    char kha[10];
+    char po[10];
+    int khat , kar , khatco = 1 , karco = 0;
+    int spaceflag = 1;
+    char adressin[100];
+    int counter5 = 0;
+    long counter6 = 0 ;
+    char tempin ;
+    char matn[1000000] , matnfnl[1000000];
+    char araa[6];
+    char pos[5];
+    scanf("%s" , &araa);
+    for(int z=0 ; z < 6 ; z++){
+        if(araa[z] != filer[z]){
+            printf("you should use <<--file>> befor your address dude\n");
+            return 0;
+        }
+    }
+    scanf(" ");
+    scanf("%c" , &tempin);
+        if(tempin != '"'){
+            adressin[0] = tempin ; 
+            counter5 = 1;
+            spaceflag = 0 ;
+        }
+
+    for (counter5 ; counter5 < 100 ; counter5++){
+        scanf("%c" , &tempin );
+        if(spaceflag == 0 && tempin == ' '){
+            adressin[counter5] = '\0' ;
+            counter5 +=150 ;
+        }
+        else {
+        if(tempin == '"'){
+            adressin[counter5] = '\0' ;
+            counter5 += 150 ;
+        }
+        if(tempin != '\n' ){
+            adressin[counter5] = tempin ;
+            adressin[counter5+1]='\0';
+        }
+        else{
+            counter5 += 150 ;
+        }
+    }}
+    if(spaceflag == 1)
+    scanf(" ");
+    scanf("%s" , &str);
+    for(int z=0 ; z < 5 ; z++){
+        if(str[z] != str[z]){
+            printf("you should use <<--str>> befor your string dude\n");
+            return 0;
+        }
+    }
+    scanf(" ");
+
+    scanf("%c" , &matn[counter6]);
+    while (matn[counter6] != '\n'){
+        tedadhorof = counter6 ;
+        counter6++ ;
+        scanf("%c" , &matn[counter6]);
+    }
+    matn[counter6] = '\0' ;
+    //printf("%lld\n" , tedadhorof);
+    for(long long c = tedadhorof ; c >= 0 ; c--){
+        if(matn[c] == ':'){
+            jaygah = c ;
+        }
+    }
+    for(long long q = jaygah ; q >= 0 ; q--){
+        if(matn[q] == 's'){
+            shoro = q ;
+            q -= 1000000;
+        }
+    }
+    for(long long q = shoro+2 ; q < jaygah ; q++){
+        kha[q-shoro-2] = matn[q];
+        kha[q-shoro-1] = '\0'; 
+    }
+    for(long long q = jaygah+1 ; q <= tedadhorof  ; q++){
+        po[q - jaygah -1] = matn[q];
+        po[q - jaygah] = '\0'; 
+    }
+    khat = atoi(kha);
+    kar = atoi(po);
+    char cc ;
+    pardazesh(matn , shoro-6 );
+    //printf("%s\n" , matn);
+    FILE    *textfile;
+    char    *text;
+    long  long  numbytes;
+    
+    textfile = fopen(adressin, "r");
+    if(textfile == NULL)
+        return 1;
+    
+    fseek(textfile, 0L, SEEK_END);
+    numbytes = ftell(textfile);
+    fseek(textfile, 0L, SEEK_SET);	
+
+    text = (char*)calloc(numbytes, sizeof(char));	
+    if(text == NULL)
+        return 1;
+
+    fread(text, sizeof(char), numbytes, textfile);
+    fclose(textfile);
+
+    //printf("%s\n" ,text);
+    char nime1[1000] , nime2[1000] ;
+    sakhtmatn(text , nime1 , nime2 , khat , kar);
+    //printf("%s\n%s" , nime1 , nime2);
+    FILE *fptr = fopen(adressin , "w");
+    fprintf(fptr , "%s%s%s" , nime1 , matn , nime2);
+    fclose(fptr);
+
+
 }
 
 void print_commands(){
