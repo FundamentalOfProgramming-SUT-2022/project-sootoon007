@@ -189,7 +189,7 @@ void shift(char zt[] , long long a , long long z){
 }
 
 void pardazesh(char mt[] , long long h ){
-    mt[h+1] = '\0';
+    mt[h] = '\0';
     if( mt[0] == '"'){
         shift(mt , h , 0);
         mt[h] = '\0' ; 
@@ -334,6 +334,12 @@ int insert(){
     }
     khat = atoi(kha);
     kar = atoi(po);
+    FILE *abc = fopen(adressin , "r");
+    if(abc == NULL){
+        printf("what the hell the address you intered doesn't exist , astaghforellah bro :(\n");
+        fclose(abc);
+        return 0 ;
+    }
     char cc ;
     pardazesh(matn , shoro-6 );
     //printf("%s\n" , matn);
