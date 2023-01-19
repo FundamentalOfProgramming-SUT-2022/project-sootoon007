@@ -189,13 +189,22 @@ void shift(char zt[] , long long a , long long z){
 }
 
 void pardazesh(char mt[] , long long h ){
-    mt[h] = '\0';
+    if(mt[h] == '"' && mt[h-1] == '/'){
+        mt[h-1] = '"';
+        mt[h] = '\0';
+    }
+    mt[h+1] = '\0';
     if( mt[0] == '"'){
         shift(mt , h , 0);
         mt[h] = '\0' ; 
     }
+    if( mt[0] == '/' && mt[1] == '"'){
+        shift(mt , h , 0);
+    }
+    
 
-     for ( long long mat = 0 ; mat < h ; mat++ ){
+
+     for ( long long mat = 0 ; mat <= h ; mat++ ){
         if ( mt[mat] == 92 && mt[mat+1] == 92){
                 shift(mt , h , mat);
                 mat += 1 ;
@@ -206,6 +215,7 @@ void pardazesh(char mt[] , long long h ){
             shift(mt , h , mat+1);
             continue;
           }
+          
      }
 }
 
