@@ -8,7 +8,7 @@ int cmdflag[16];
 char filer[6] = {'-' , '-' , 'f' , 'i' , 'l' , 'e'};
 char str[5] = {'-' , '-' , 's' , 't' , 'r'};
 char poser[5] = {'-' , '-' , 'p' , 'o' , 's'};
-char sizer[5] = {'-' , 's' , 'i' , 'z' , 'z'};
+char sizer[5] = {'-' , 's' , 'i' , 'z' , 'e'};
 char addressrep[100][100];
 
 
@@ -177,7 +177,7 @@ int runcommand(int cmdnum){
         cat();
     }
     else if(cmdnum == 4){
-        //rmv();
+        rmv();
     }
 }
 
@@ -193,10 +193,9 @@ void pardazesh(char mt[] , long long h ){
         mt[h-1] = '"';
         mt[h] = '\0';
     }
-    mt[h+1] = '\0';
     if( mt[0] == '"'){
         shift(mt , h , 0);
-        mt[h] = '\0' ; 
+        mt[h-1] = '\0' ; 
     }
     if( mt[0] == '/' && mt[1] == '"'){
         shift(mt , h , 0);
@@ -246,6 +245,12 @@ long long sakhtmatn(char txt[] , char nim[] , char nim2[] , int a , int b){
             if(txt[pp+zz] != '\n' && txt[pp+zz] != '\0'){
                 nim[pp+zz] = txt[pp+zz];
                 nim[pp+zz+1] = '\0' ;
+            }
+            else if(txt[pp+zz] == '\0' || txt[pp+zz] == '\n'){
+                for(int aaa = 0 ; aaa < (b-zz-2) ; aaa++){
+                    txt[pp+zz+aaa] = ' ';
+                    txt[pp+zz+aaa+1] = '\0';
+                }
             }
         }
      }
@@ -350,6 +355,7 @@ int insert(){
         fclose(abc);
         return 0 ;
     }
+    fclose(abc);
     char cc ;
     pardazesh(matn , shoro-6 );
     //printf("%s\n" , matn);
@@ -379,6 +385,156 @@ int insert(){
     FILE *fptr = fopen(adressin , "w");
     fprintf(fptr , "%s%s%s" , nime1 , matn , nime2);
     fclose(fptr);
+
+
+}
+
+int remover(char* tx , int arr , int brr ){
+    int khatk2 = 1 ;
+     int chark2 = 0 ;
+     long long pp2 = 0 ;
+     while(khatk2 < arr && tx[pp2] != '\0'){
+        if(tx[pp2] == '\n'){
+            khatk2++;
+        }
+        pp2++;
+     }
+     if(tx[pp2] == '\0'){
+        return pp2-1;
+     }
+     if(khatk2 == arr){
+        for(int zz = 0 ; zz < brr ; zz++){
+            if(tx[pp2+zz] != '\n' && tx[pp2+zz] != '\0'){
+                if(zz == brr-1){
+                    return pp2+zz-1;
+                }
+            }
+            else if(tx[pp2+zz] == '\0' || tx[pp2+zz] == '\n'){
+                  return pp2+zz-1;
+                }
+            }
+        }
+     }
+
+int rmv(){
+    //removetstr –file /root/file1.txt –pos 2:1 -size 3 -b
+    char addressrm[100];
+    char ar[6] , str2[5];
+    char poss[5];
+    char te;
+    int counter12 , spaceflag2 , poskh , posek , size , dire; 
+    scanf("%s" , &ar);
+    for(int v = 0 ; v < 6 ; v++){
+        if(ar[v] != filer[v]){
+            printf("you should use <<--file>> befor your address dude\n");
+            return 0;
+        }
+    }
+    scanf(" ");
+    scanf("%c" , &te);
+        if(te != '"'){
+            addressrm[0] = te ; 
+            counter12 = 1;
+            spaceflag2 = 0 ;
+        }
+
+    for (counter12 ; counter12 < 100 ; counter12++){
+        scanf("%c" , &te );
+        if(spaceflag2 == 0 && te == ' '){
+            addressrm[counter12] = '\0' ;
+            counter12 +=150 ;
+        }
+        else {
+        if(te == '"'){
+            addressrm[counter12] = '\0' ;
+            counter12 += 150 ;
+        }
+        if(te != '\n' ){
+            addressrm[counter12] = te ;
+            addressrm[counter12+1]='\0';
+        }
+        else{
+            counter12 += 150 ;
+        }
+    }}
+    if(spaceflag2 == 1)
+    scanf(" ");
+    scanf("%s" , &str2);
+    for(int z=0 ; z < 5 ; z++){
+        if(str2[z] != poser[z]){
+            printf("you should use <<--pos>> befor your string dude\n");
+            return 0;
+        }
+    }
+    scanf(" ");
+    if(scanf("%d:%d" , &poskh , &posek) == 0)
+    printf("are you god damn serious ??? where is your position ?? :(\n");
+    scanf(" ");
+    posek++;
+    scanf("%s" , &str2);
+    if(strcmp(str2 , sizer) != 0){
+        printf("you should use <<--size>> befor your size !!! \n");
+    }
+    scanf(" ");
+    scanf("%d" , &size);
+    scanf(" -%c" , &te);
+    if(te == 'f'){
+        dire = 1;
+    }
+    else if(te == 'b'){
+        dire = -1;
+    }
+    else{
+        printf("direction isn't valid , it most be either f or b the abrvations of backward and forward ;)\n");
+    }
+
+    FILE *abd = fopen(addressrm , "r");
+    if(abd == NULL){
+        printf("what the hell the address you intered doesn't exist , astaghforellah bro :(\n");
+        fclose(abd);
+        return 0 ;
+    }
+    fclose(abd);
+    FILE    *textfile2;
+    char    *text2;
+    long  long  numbytes2;
+    
+    textfile2 = fopen(addressrm, "r");
+    if(textfile2 == NULL)
+        return 1;
+    
+    fseek(textfile2, 0L, SEEK_END);
+    numbytes2 = ftell(textfile2);
+    fseek(textfile2, 0L, SEEK_SET);	
+
+    text2 = (char*)calloc(numbytes2, sizeof(char));	
+    if(text2 == NULL)
+        return 1;
+
+    fread(text2, sizeof(char), numbytes2, textfile2);
+    fclose(textfile2);
+    int noghte = remover(text2 , poskh , posek );
+    if(dire == -1){
+        for (int ss = 0 ; ss < size ; ss++ ){
+            if(text2[noghte-ss] != '\0')
+             shift(text2 , strlen(text2)-ss , noghte-ss );
+             else{
+            ss += size+2;
+        }
+        }
+    }
+    else if(dire == 1){
+        for (int ss = 0 ; ss < size ; ss++ ){
+            if(text2[noghte-ss+size] != '\0')
+             shift(text2 , strlen(text2)-ss , noghte-ss+size );
+             else{
+            ss += size+2;
+        }
+        }
+    }
+    FILE *fptr3 = fopen(addressrm , "w");
+    fprintf(fptr3 , "%s" , text2);
+    fclose(fptr3);
 
 
 }
