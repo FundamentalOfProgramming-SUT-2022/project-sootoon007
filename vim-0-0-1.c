@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <math.h>
 // #include <windows.h>
@@ -219,25 +220,26 @@ int runcommand(int cmdnum)
 }
 
 void shift(char zt[], long long a, long long z)
-{
-    for (z; z < a - 1; z++)
+{   long long bpedar = strlen(zt);
+    for (z; z < a ; z++)
     {
         zt[z] = zt[z + 1];
     }
+    zt[bpedar-1] = '\0';
 }
 
 void pardazesh(char mt[], long long h)
 {   
-    mt[h+1] = '\0';
-    if (mt[h-6] == '"' && mt[h - 7] == '/')
-    {
-        mt[h - 7] = '"';
-        mt[h-6] = '\0';
-    }
-    if (mt[0] == '"')
-    {
+    if(mt[0] == '"'){
+        //printf("yes , %c" , mt[h]);
         shift(mt, h, 0);
-        mt[h - 1] = '\0';
+        mt[h-1] = '\0';
+        }
+        mt[h+1] = '\0';
+    if (mt[h] == '"' && mt[h - 1] == '/')
+    {   //printf("yessss");
+        mt[h-1] = '"';
+        mt[h] = '\0';
     }
     if (mt[0] == '/' && mt[1] == '"')
     {
@@ -246,7 +248,7 @@ void pardazesh(char mt[], long long h)
 
     for (long long mat = 0; mat <= h; mat++)
     {
-        if (mt[mat] == 92 && mt[mat + 1] == 92)
+        if (mt[mat] == 92 && mt[mat + 1] == 92 && mt[mat+2] == 'n')
         {
             shift(mt, h, mat);
             mat += 1;
@@ -259,6 +261,7 @@ void pardazesh(char mt[], long long h)
             continue;
         }
     }
+    printf("\n*%s*\n" , mt);
 }
 
 long long sakhtmatn(char txt[], char nim[], char nim2[], int a, int b)
@@ -278,16 +281,8 @@ long long sakhtmatn(char txt[], char nim[], char nim2[], int a, int b)
     }
     if (txt[pp] == '\0')
     {
-        for (int x = 0; x < a - khatk ; x++)
-        {
-            nim[pp + x] = '\n';
-            nim[pp + x + 1] = '\0';
-        }
-        for (int y = 0; y < b; y++)
-        {
-            nim[pp + a - khatk + y] = ' ';
-            nim[pp + a - khatk + y + 1] = '\0';
-        }
+        printf("the position you intered doesn't exist in the passage :(( \n");
+        return -100; 
     }
     if (khatk == a)
     {
@@ -299,16 +294,13 @@ long long sakhtmatn(char txt[], char nim[], char nim2[], int a, int b)
                 nim[pp + zz + 1] = '\0';
             }
             else if (txt[pp + zz] == '\0' || txt[pp + zz] == '\n')
-            {
-                for (int aaa = 0; aaa < (b - zz - 2); aaa++)
-                {
-                    txt[pp + zz + aaa] = ' ';
-                    txt[pp + zz + aaa + 1] = '\0';
-                }
+            {   
+                printf("the position you intered doesn't exist in the passage :(( \n");
+                return -100;
             }
         }
     }
-    for (long long gg = pp + b; txt[gg] != '\0'; gg++)
+    for (long long gg = pp + b ; gg < strlen(txt) ; gg++)
     {
         nim2[gg - pp - b] = txt[gg];
         nim2[gg - pp - b + 1] = '\0';
@@ -450,7 +442,7 @@ int insert()
     }
     fclose(abc);
     char cc;
-    pardazesh(matn, shoro);
+    pardazesh(matn, shoro-6);
     // printf("%s\n" , matn);
     FILE *textfile;
     char *text;
@@ -479,7 +471,9 @@ int insert()
         nime1[nbn] = '\0';
         nime2[nbn] = '\0';
     }
-    sakhtmatn(text, nime1, nime2, khat, kar);
+    if (sakhtmatn(text, nime1, nime2, khat, kar) == -100){
+        return 0;
+    }
     // printf("%s\n%s" , nime1 , nime2);
     FILE *fptr = fopen(adressin, "w");
     fprintf(fptr, "%s%s%s", nime1, matn, nime2);
@@ -999,18 +993,26 @@ void zeromark(int ara[], int n)
 }
 
 int checkval(char a, char b, char c, char d)
-{
+{   int fl = 0;
+    char ash;
     for (int i = 0; i < 16; i++)
     {
         if ((a == cmd[i][0]) && (b == cmd[i][1]) && (c == cmd[i][2]) && (d == cmd[i][3]))
         {
             runcommand(i);
+            fl = 1;
             return 0;
         }
     }
+    if(fl == 0){
     printf("command isn't valid , try again or see command palette with <<prc >>\n");
-    
+    scanf("%c" , &ash);
+    while(ash != '\n'){
+        scanf("%c" , &ash);
+    }
     return 0;
+    }
+    
 }
 
 int get_command()
