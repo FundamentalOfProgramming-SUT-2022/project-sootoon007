@@ -184,6 +184,237 @@ int cat()
     printf("\n--------------------------------------------------------------------------------------\n");
 }
 
+void cmp(){
+    char araa3[6] , tempo2 , str7[5] , adrc[200] , adrc2[200];
+    long long counter18 , counter17 , tedadhorof5 , jaygah4; 
+    int spaceflag5;
+    scanf("%s", &araa3);
+        if (strcmp(araa3 ,"--files"))
+        {
+            printf("you should use <<--files>> befor your address dude\n");
+            return 0;
+        }
+    scanf(" ");
+    scanf("%c", &tempo2);
+    if (tempo2 != '"')
+    {
+        adrc[0] = tempo2;
+        counter17 = 1;
+        spaceflag5 = 0;
+    }
+
+    for (counter17; counter17 < 100; counter17++)
+    {
+        scanf("%c", &tempo2);
+        if (spaceflag5 == 0 && tempo2 == ' ')
+        {
+            adrc[counter17] = '\0';
+            counter17 += 150;
+        }
+        else
+        {
+            if (tempo2 == '"')
+            {
+                adrc[counter17] = '\0';
+                counter17 += 150;
+            }
+            if (tempo2 != '\n')
+            {
+                adrc[counter17] = tempo2;
+                adrc[counter17 + 1] = '\0';
+            }
+            else
+            {
+                counter17 += 150;
+            }
+        }
+    }
+    if (spaceflag5 == 1)
+        scanf(" ");
+        scanf("%c", &tempo2);
+    if (tempo2 != '"')
+    {
+        adrc2[0] = tempo2;
+        counter18 = 1;
+        spaceflag5 = 0;
+    }
+
+    for (counter18; counter18 < 100; counter18++)
+    {
+        scanf("%c", &tempo2);
+        if (spaceflag5 == 0 && tempo2 == ' ')
+        {
+            adrc2[counter18] = '\0';
+            counter18 += 150;
+        }
+        else
+        {
+            if (tempo2 == '"')
+            {
+                adrc2[counter18] = '\0';
+                counter18 += 150;
+            }
+            if (tempo2 != '\n')
+            {
+                adrc2[counter18] = tempo2;
+                adrc2[counter18 + 1] = '\0';
+            }
+            else
+            {
+                counter18 += 150;
+            }
+        }
+    }
+    long long counter19 = 0;
+    int tr = -2;
+    long long adrcc = 0;
+    long long adrcc2 = 0;
+    printf("\n");
+    FILE *cmp1 = fopen(adrc, "r");
+    FILE *cmp2 = fopen(adrc2, "r");
+    char cmp1s[100000] , cmp2s[100000];
+    if (cmp1 == NULL || cmp2 ==NULL)
+    {
+        printf("one or both of the files you intered doesn't exist bro !! \n");
+        return ;
+    }
+    while (fgets(cmp1s , 100000 , cmp1)){
+        adrcc++;
+    }
+    while (fgets(cmp2s, 1000000, cmp2)){
+        adrcc2++;
+    }
+    if(adrcc > adrcc2){
+        tr = -1;
+    }
+    fclose(cmp1);
+    fclose(cmp2);
+    cmp1 = fopen(adrc , "r");
+    cmp2 = fopen(adrc2 , "r");
+    if(tr == -1)
+    {
+    for (long long pedar = 0 ; pedar < adrcc2 ; pedar++)
+    {   fgets(cmp1s , 1000000 , cmp1);
+        fgets(cmp2s , 1000000 , cmp2);
+        counter19++;
+        if (strcmp(cmp1s , cmp2s) != 0 )
+        {
+        printf("----------------------------line number =>%4lld----------------------------------------\n" , counter19);
+        printf("file number one :%s \nfile number two :%s", cmp1s , cmp2s);
+        printf("\n--------------------------------------------------------------------------------------\n");
+        }
+    }
+    for (long long pedar = 0 ; pedar < adrcc - adrcc2 ; pedar++){
+        fgets(cmp1s , 1000000 , cmp1);
+        counter19++;
+        printf("----------------------------line number =>%4lld----------------------------------------\n" , counter19);
+        printf("file number one :%s \nfile number two :doesn't exist", cmp1s );
+        printf("\n--------------------------------------------------------------------------------------\n");
+    }
+    }
+    else
+    {
+        for (long long pedar = 0 ; pedar < adrcc ; pedar++)
+    {   fgets(cmp1s , 1000000 , cmp1);
+        fgets(cmp2s , 1000000 , cmp2);
+        counter19++;
+        if (strcmp(cmp1s , cmp2s) != 0 )
+        {
+        printf("----------------------------line number =>%4lld----------------------------------------\n" , counter19);
+        printf("file number one :%s \nfile number two :%s", cmp1s , cmp2s);
+        printf("\n--------------------------------------------------------------------------------------\n");
+        }
+    }
+    for (long long pedar = 0 ; pedar < adrcc2 - adrcc ; pedar++){
+        fgets(cmp2s , 1000000 , cmp2);
+        counter19++;
+        printf("----------------------------line number =>%4lld----------------------------------------\n" , counter19);
+        printf("file number two :%s \nfile number one :doesn't exist", cmp2s );
+        printf("\n--------------------------------------------------------------------------------------\n");
+    }
+    }
+    fclose(adrc);
+    fclose(adrc2);
+
+    return ;
+  
+}
+
+
+int fnd(){
+    char araa2[6] , tempo , str6[5] , adrf[200];
+    long long counter16 , counter15 , tedadhorof4 , jaygah3; 
+    char matn3[100000];
+    int spaceflag4;
+    scanf("%s", &araa2);
+    for (int z = 0; z < 6; z++)
+    {
+        if (araa2[z] != filer[z])
+        {
+            printf("you should use <<--file>> befor your address dude\n");
+            return 0;
+        }
+    }
+    scanf(" ");
+    scanf("%c", &tempo);
+    if (tempo != '"')
+    {
+        adrf[0] = tempo;
+        counter15 = 1;
+        spaceflag4 = 0;
+    }
+
+    for (counter15; counter15 < 100; counter15++)
+    {
+        scanf("%c", &tempo);
+        if (spaceflag4 == 0 && tempo == ' ')
+        {
+            adrf[counter15] = '\0';
+            counter15 += 150;
+        }
+        else
+        {
+            if (tempo == '"')
+            {
+                adrf[counter15] = '\0';
+                counter15 += 150;
+            }
+            if (tempo != '\n')
+            {
+                adrf[counter15] = tempo;
+                adrf[counter15 + 1] = '\0';
+            }
+            else
+            {
+                counter15 += 150;
+            }
+        }
+    }
+    if (spaceflag4 == 1)
+        scanf(" ");
+    scanf("%s", &str6);
+    for (int z = 0; z < 5; z++)
+    {
+        if (str6[z] != str[z])
+        {
+            printf("you should use <<--str>> befor your string dude\n");
+            return 0;
+        }
+    }
+    scanf(" ");
+
+    scanf("%c", &matn3[counter16]);
+    while (matn3[counter16] != '\n')
+    {
+        tedadhorof4 = counter16;
+        counter16++;
+        scanf("%c", &matn3[counter16]);
+    }
+    matn3[counter16] = '\0';
+    // printf("%lld\n" , tedadhorof);
+    
+}
+
 int runcommand(int cmdnum)
 {
     if (cmdnum == 0)
@@ -214,31 +445,42 @@ int runcommand(int cmdnum)
     {
         cop(1);
     }
-    else if (cmdnum == 7){
+    else if (cmdnum == 7)
+    {
         pst();
+    }
+    else if (cmdnum == 8)
+    {
+        fnd();
+    }
+    else if (cmdnum == 13)
+    {
+        cmp();
     }
 }
 
 void shift(char zt[], long long a, long long z)
-{   long long bpedar = strlen(zt);
-    for (z; z < a ; z++)
+{
+    long long bpedar = strlen(zt);
+    for (z; z < a; z++)
     {
         zt[z] = zt[z + 1];
     }
-    zt[bpedar-1] = '\0';
+    zt[bpedar - 1] = '\0';
 }
 
 void pardazesh(char mt[], long long h)
-{   
-    if(mt[0] == '"'){
-        //printf("yes , %c" , mt[h]);
+{
+    if (mt[0] == '"')
+    {
+        // printf("yes , %c" , mt[h]);
         shift(mt, h, 0);
-        mt[h-1] = '\0';
-        }
-        mt[h+1] = '\0';
+        mt[h - 1] = '\0';
+    }
+    mt[h + 1] = '\0';
     if (mt[h] == '"' && mt[h - 1] == '/')
-    {   //printf("yessss");
-        mt[h-1] = '"';
+    { // printf("yessss");
+        mt[h - 1] = '"';
         mt[h] = '\0';
     }
     if (mt[0] == '/' && mt[1] == '"')
@@ -248,7 +490,7 @@ void pardazesh(char mt[], long long h)
 
     for (long long mat = 0; mat <= h; mat++)
     {
-        if (mt[mat] == 92 && mt[mat + 1] == 92 && mt[mat+2] == 'n')
+        if (mt[mat] == 92 && mt[mat + 1] == 92)
         {
             shift(mt, h, mat);
             mat += 1;
@@ -261,11 +503,11 @@ void pardazesh(char mt[], long long h)
             continue;
         }
     }
-    printf("\n*%s*\n" , mt);
+    //printf("\n*%s*\n", mt);
 }
 
 long long sakhtmatn(char txt[], char nim[], char nim2[], int a, int b)
-{
+{   
     int khatk = 1;
     int chark = 0;
     long long pp = 0;
@@ -282,7 +524,7 @@ long long sakhtmatn(char txt[], char nim[], char nim2[], int a, int b)
     if (txt[pp] == '\0')
     {
         printf("the position you intered doesn't exist in the passage :(( \n");
-        return -100; 
+        return -100;
     }
     if (khatk == a)
     {
@@ -294,13 +536,13 @@ long long sakhtmatn(char txt[], char nim[], char nim2[], int a, int b)
                 nim[pp + zz + 1] = '\0';
             }
             else if (txt[pp + zz] == '\0' || txt[pp + zz] == '\n')
-            {   
+            {
                 printf("the position you intered doesn't exist in the passage :(( \n");
                 return -100;
             }
         }
     }
-    for (long long gg = pp + b ; gg < strlen(txt) ; gg++)
+    for (long long gg = pp + b; gg < strlen(txt); gg++)
     {
         nim2[gg - pp - b] = txt[gg];
         nim2[gg - pp - b + 1] = '\0';
@@ -321,7 +563,7 @@ int insert()
     long counter6 = 0;
     char tempin;
     char matn[1000000], matnfnl[1000000];
-    char araa[6];
+    char araa[6] , strx[6];
     char pos[5];
     scanf("%s", &araa);
     for (int z = 0; z < 6; z++)
@@ -369,10 +611,10 @@ int insert()
     }
     if (spaceflag == 1)
         scanf(" ");
-    scanf("%s", &str);
+    scanf("%s", &strx);
     for (int z = 0; z < 5; z++)
     {
-        if (str[z] != str[z])
+        if (strx[z] != str[z])
         {
             printf("you should use <<--str>> befor your string dude\n");
             return 0;
@@ -403,9 +645,10 @@ int insert()
             shoro = q;
             q -= 1000000;
         }
-        else if (q <= 4)
+        else if (q < 4)
         {
             printf("where is your <<--pos>> !!\n");
+            return 0;
         }
     }
     for (long long q = shoro + 2; q < jaygah; q++)
@@ -442,7 +685,7 @@ int insert()
     }
     fclose(abc);
     char cc;
-    pardazesh(matn, shoro-6);
+    pardazesh(matn, shoro - 6);
     // printf("%s\n" , matn);
     FILE *textfile;
     char *text;
@@ -471,7 +714,14 @@ int insert()
         nime1[nbn] = '\0';
         nime2[nbn] = '\0';
     }
-    if (sakhtmatn(text, nime1, nime2, khat, kar) == -100){
+    if (khat == 1 && kar == 0 && strlen(text) == 0){
+    FILE *fptr = fopen(adressin, "w");
+    fprintf(fptr, "%s%s", matn, text);
+    fclose(fptr);
+    return 0;
+    }
+    if (sakhtmatn(text, nime1, nime2, khat, kar) == -100)
+    {
         return 0;
     }
     // printf("%s\n%s" , nime1 , nime2);
@@ -495,7 +745,7 @@ long long remover(char *tx, int arr, int brr)
     }
     if (tx[pp2] == '\0')
     {
-        return pp2 ;
+        return pp2;
     }
     if (khatk2 == arr)
     {
@@ -505,12 +755,12 @@ long long remover(char *tx, int arr, int brr)
             {
                 if (zz == brr - 1)
                 {
-                    return pp2 + zz ;
+                    return pp2 + zz;
                 }
             }
             else if (tx[pp2 + zz] == '\0' || tx[pp2 + zz] == '\n')
             {
-                return pp2 + zz ;
+                return pp2 + zz;
             }
         }
     }
@@ -638,7 +888,7 @@ int cop(int flager)
 
     fread(text3, sizeof(char), numbytes3, textfile3);
     fclose(textfile3);
-    long long noghte2 = remover(text3, poskh2, posek2)-1;
+    long long noghte2 = remover(text3, poskh2, posek2) - 1;
     if (dire2 == -1)
     {
         clipboard[size3] = '\0';
@@ -688,7 +938,8 @@ int cop(int flager)
         fprintf(fptr3, "%s", text3x);
         fclose(fptr3);
     }
-    if(flager == 0){
+    if (flager == 0)
+    {
         FILE *fptr4 = fopen(adco, "w");
         fprintf(fptr4, "%s", text3);
         fclose(fptr4);
@@ -812,7 +1063,7 @@ int rmv()
 
     fread(text2, sizeof(char), numbytes2, textfile2);
     fclose(textfile2);
-    long long noghte = remover(text2, poskh, posek)-1;
+    long long noghte = remover(text2, poskh, posek) - 1;
     if (dire == -1)
     {
         long long oxx = 0;
@@ -843,7 +1094,8 @@ int rmv()
     fclose(fptr3);
 }
 
-int pst(){
+int pst()
+{
     char adp[100];
     char arc[6], str3[5];
     char posss[5];
@@ -905,9 +1157,10 @@ int pst(){
         }
     }
     scanf(" ");
-    if (scanf("%d:%d", &poskh3, &posek4) == 0){
+    if (scanf("%d:%d", &poskh3, &posek4) == 0)
+    {
         printf("are you god damn serious ??? where is your position ?? :(\n");
-        return 0 ;
+        return 0;
     }
     FILE *abz = fopen(adp, "r");
     if (abz == NULL)
@@ -916,7 +1169,7 @@ int pst(){
         fclose(abz);
         return 0;
     }
-    //printf("%s\n%s\n%s\n%s\n%d%d" , arc , str3 , adp , poskh3 , posek4);
+    // printf("%s\n%s\n%s\n%s\n%d%d" , arc , str3 , adp , poskh3 , posek4);
     FILE *textfile4;
     char *text4;
     long long numbytes4;
@@ -942,27 +1195,25 @@ int pst(){
 
     fread(text4, sizeof(char), numbytes4, textfile4);
     fclose(textfile4);
-    long long noghte3 = remover(text4 , poskh3 , posek4);
-    //printf("%lld" , noghte3);
-    for(long long nbn3 = 0 ; nbn3 < numbytes4 ; nbn3++){
-        if(nbn3 < noghte3 ){
+    long long noghte3 = remover(text4, poskh3, posek4);
+    // printf("%lld" , noghte3);
+    for (long long nbn3 = 0; nbn3 < numbytes4; nbn3++)
+    {
+        if (nbn3 <= noghte3)
+        {
             text4x[nbn3] = text4[nbn3];
-            text4x[nbn3+1]= '\0';
+            text4x[nbn3 + 1] = '\0';
         }
-        if(nbn3 >= noghte3){
+        if (nbn3 > noghte3)
+        {
             text4xx[nbn3 - noghte3] = text4[nbn3];
-            text4xx[nbn3 - noghte3 + 1 ] = '\0';
+            text4xx[nbn3 - noghte3 + 1] = '\0';
         }
     }
-    FILE *abb = fopen(adp , "w");
-    fprintf(abb , "%s%s%s" , text4x , clipboard , text4xx);
+    FILE *abb = fopen(adp, "w");
+    fprintf(abb, "%s%s%s", text4x, clipboard, text4xx);
     fclose(abb);
-
-
-
-
 }
-
 
 void print_commands()
 {
@@ -993,7 +1244,8 @@ void zeromark(int ara[], int n)
 }
 
 int checkval(char a, char b, char c, char d)
-{   int fl = 0;
+{
+    int fl = 0;
     char ash;
     for (int i = 0; i < 16; i++)
     {
@@ -1004,15 +1256,16 @@ int checkval(char a, char b, char c, char d)
             return 0;
         }
     }
-    if(fl == 0){
-    printf("command isn't valid , try again or see command palette with <<prc >>\n");
-    scanf("%c" , &ash);
-    while(ash != '\n'){
-        scanf("%c" , &ash);
+    if (fl == 0)
+    {
+        printf("command isn't valid , try again or see command palette with <<prc >>\n");
+        scanf("%c", &ash);
+        while (ash != '\n')
+        {
+            scanf("%c", &ash);
+        }
+        return 0;
     }
-    return 0;
-    }
-    
 }
 
 int get_command()
@@ -1023,11 +1276,18 @@ int get_command()
 }
 
 int main()
-{
+{   printf("\t\t#########################################################\n");
+	printf("\t\t#                                                       #\n");
+	printf("\t\t#                                                       #\n");
+    printf("\t\t#             welcome to my project habibi              #\n");
+	printf("\t\t#                                                       #\n");
+    printf("\t\t#                                                       #\n");
+	printf("\t\t#########################################################\n");
     printf("if you are a noobie and dont know the commands you can use <<prc >> command to see them :)\n\n");
-    //clipboard = "salam man be to yar ghadimi";
+    // clipboard = "salam man be to yar ghadimi";
     get_command();
-    while(1){
+    while (1)
+    {
         scanf("\n");
         get_command();
     }
