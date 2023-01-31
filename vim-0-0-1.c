@@ -37,6 +37,7 @@ long long remover(char *, int, int);
 int cop(int);
 int rmv();
 int pst();
+int rpc();
 
 void addressmaker(int i, int j, char adress[])
 {
@@ -358,6 +359,378 @@ void cmp()
     fclose(cmp2);
 
     return;
+}
+
+
+int grp(){
+    char dooo[1000] , addressg[200][100];
+    int flagad=0 , flagc=0 , flagl=0 , jayad , jayresh;
+    long long min3;
+    gets(dooo);
+    if( dooo[0] == '-' && dooo[1] == '-' && dooo[2] == 's' && dooo[3] == 't' && dooo[4] == 'r' ){
+        jayresh = 6;
+    }
+    else{
+        printf("you should use <<--str>> befor your string dude\n");
+        return 0;
+    }
+    min3 = strlen(dooo);
+    for(int q = 0 ; q < strlen(dooo) ; q++){
+        if( dooo[q] == '-' && dooo[q+1] == 'c' && dooo[q+2] == ' '){
+            flagc = 1;
+            if(q < min3){
+                min3 = q-2 ;
+            }
+        }
+        if( dooo[q] == '-' && dooo[q+1] == 'l' && dooo[q+2] == ' '){
+            flagl = 1;
+            if(q < min3){
+                min3 = q-2 ;
+            }
+        }
+        if( dooo[q] == '-' && dooo[q+1] == '-' && dooo[q+2] == 'f' && dooo[q+3] == 'i' && dooo[q+4] == 'l' && dooo[q+5] == 'e' && dooo[q+6] == 's' ){
+            flagad = 1;
+            jayad = q+8 ;
+            if(q < min3){
+                min3 = q - 2 ;
+            }
+        }
+    }
+    if (flagad == 0){
+        printf("you should use <<--files>> befor your address dude\n");
+        return 0;
+    }
+    long long boros = 0;
+    for(int boro = 0 ; boro < 100 ; boro++){
+    long long counter21 = 0;
+    boros = boro;    
+        if(jayad >= strlen(dooo) || dooo[jayad] == '\n'){
+            break;
+        }
+        if(dooo[jayad] == '"'){
+            jayad++;
+            while(dooo[jayad] != '"'){
+                addressg[boro][counter21] = dooo[jayad];
+                addressg[boro][counter21+1] = '\0';
+                jayad++;
+                counter21++;
+            }
+            jayad+=2;
+            continue;
+        }
+        else{
+           while(dooo[jayad] != ' '){
+                addressg[boro][counter21] = dooo[jayad];
+                addressg[boro][counter21+1] = '\0';
+                jayad++;
+                counter21++;
+            }
+            jayad++;
+            continue;
+        }
+    }
+    dooo[min3+1] = '\0';
+    char *strg = dooo+6;
+    char *mant = (char *)calloc(10000 ,sizeof(char));
+    FILE* af;
+    int flagg;
+    char rep;
+
+    if (flagl == 0 && flagc == 0){
+        int flagr = 0;
+        printf("------------------------------------------------------------\n");
+        for(int lk = 0 ; lk < boros ; lk++){
+            af = fopen(addressg[lk] , "r");
+            if(af == NULL){
+                printf("the file you intered doesn't exist bro !!\n");
+                printf("------------------------------------------------------------\n");
+
+                return 0;
+            }
+            else {
+
+                while(fgets(mant , 10000 , af)){
+                    for(int qq = 0 ; qq < strlen(mant)  ; qq++){
+                        flagg = 0;
+                        rep = mant[qq+strlen(strg)];
+                        mant[qq+strlen(strg)] = '\0';
+                        //printf("%s==" , mant+qq);
+                        if(strcmp(mant+qq , strg) == 0 ){
+                            mant[qq+strlen(strg)] = rep;
+                            printf("%s" , mant);
+                            flagr = 1;
+                            break;
+                        }
+                        mant[qq+strlen(strg)] = rep;
+                        continue;
+                    }
+                    continue;
+                }
+                
+            }
+                fclose(af);
+                continue;
+        }
+        if(flagr == 0){
+            printf("sorry no file has the string you want ...\n");
+        }
+        printf("------------------------------------------------------------\n");
+    }
+    else if(flagc == 1 && flagl == 0){
+            long long vayyy = 0;
+            for(int lk = 0 ; lk < boros ; lk++){
+            af = fopen(addressg[lk] , "r");
+            if(af == NULL){
+                printf("the file you intered doesn't exist bro !!");
+                return 0;
+            }
+            else{
+                while(fgets(mant , 10000 , af)){
+                    for(int qq = 0 ; qq < strlen(mant)  ; qq++){
+                        flagg = 0;
+                        rep = mant[qq+strlen(strg)];
+                        mant[qq+strlen(strg)] = '\0';
+                        //printf("%s==" , mant+qq);
+                        if(strcmp(mant+qq , strg) == 0 ){
+                            mant[qq+strlen(strg)] = rep;
+                            vayyy++;
+                            break;
+                        }
+                        mant[qq+strlen(strg)] = rep;
+                        continue;
+                    }
+                    continue;
+                }
+                
+            }
+                fclose(af);
+                continue;
+        }
+        printf("%lld\n" , vayyy );
+    }
+    else if (flagl == 1 && flagc == 0){
+        long long vay = 0;
+        int list[100] = {0} ;
+        int flagma = 0;
+        for(int lk = 0 ; lk < boros ; lk++){
+            af = fopen(addressg[lk] , "r");
+            if(af == NULL){
+                printf("the file you intered doesn't exist bro !!");
+                return 0;
+            }
+            else{
+                while(fgets(mant , 10000 , af)){
+                    for(int qq = 0 ; qq < strlen(mant)  ; qq++){
+                        flagg = 0;
+                        rep = mant[qq+strlen(strg)];
+                        mant[qq+strlen(strg)] = '\0';
+                        //printf("%s==" , mant+qq);
+                        if(strcmp(mant+qq , strg) == 0 ){
+                            mant[qq+strlen(strg)] = rep;
+                            list[lk] = 1;
+                            vay++;
+                            break;
+                        }
+                        mant[qq+strlen(strg)] = rep;
+                        continue;
+                    }
+                    if (list[lk] == 1)
+                    {
+                        break;
+                    }
+                    else{
+                        continue;
+                    }
+                    
+                }
+                
+            }
+                fclose(af);
+                continue;
+        }
+        printf("------------------------------------------------------------\n");
+        int sr = 1;
+        for(int ff = 0 ; ff < boros ; ff++){
+                    if(list[ff] == 1){
+                        printf("file number %d : %s\n" ,sr ,  addressg[ff]);
+                        flagma = 1;
+                        sr++;
+                    }
+                }
+                if(flagma == 0){
+                    printf("sorry no file has the string you want ...\n");
+                }
+                printf("------------------------------------------------------------\n");
+                return 0;
+    }
+    else if (flagl == 1 && flagc == 1){
+        printf("sorry the options you choose can't be combined together :(\n");
+        return 0;
+    }
+    
+}
+
+
+int rpc()
+{
+    int flagat2 = 0, flagall2 = 0;
+    char araa3[6], tempo2, str7[7], adrpc[200];
+    long long counter20, counter21, tedadhorof5, jaygah4, min2, atad2 , str2place;
+    char matn4[100000] , str1[50000] , str2[50000];
+    int spaceflag5, flagsb2 = 0, flagsa2 = 0;
+    scanf("%s", &araa3);
+    for (int z = 0; z < 6; z++)
+    {
+        if (araa3[z] != filer[z])
+        {
+            printf("you should use <<--file>> befor your address dude\n");
+            return 0;
+        }
+    }
+    scanf(" ", chert);
+    scanf("%c", &tempo2);
+    if (tempo2 != '"')
+    {
+        adrpc[0] = tempo2;
+        counter20 = 1;
+        spaceflag5 = 0;
+    }
+
+    for (counter20; counter20 < 200; counter20++)
+    {
+        scanf("%c", &tempo2);
+        if (spaceflag5 == 0 && tempo2 == ' ')
+        {
+            adrpc[counter20] = '\0';
+            counter20 += 250;
+        }
+        else
+        {
+            if (tempo2 == '"')
+            {
+                adrpc[counter20] = '\0';
+                counter20 += 250;
+            }
+            if (tempo2 != '\n')
+            {
+                adrpc[counter20] = tempo2;
+                adrpc[counter20 + 1] = '\0';
+            }
+            else
+            {
+                counter20 += 250;
+            }
+        }
+    }
+    if (spaceflag5 == 1)
+        scanf(" ", chert);
+    scanf("%s", &str7);
+    for (int z = 0; z < 5; z++)
+    {
+        if (strcmp(str7, "--str1"))
+        {
+            printf("you should use <<--str1>> befor your string dude\n");
+            return 0;
+        }
+    }
+    scanf(" ", chert);
+    gets(matn4);
+    min2 = strlen(matn4);
+    char charad2[10];
+    // printf("%d\n" , strlen(matn3));
+    for (long long cono3 = 0; cono3 < strlen(matn4); cono3++)
+    {
+        if (matn4[cono3] == '-' && matn4[cono3 + 1] == 'a' && matn4[cono3 + 2] == 'l' && matn4[cono3 + 3] == 'l')
+        {
+            flagall2 = 1;
+            if (cono3 < min2)
+                min2 = cono3;
+        }
+        if (matn4[cono3] == '-' && matn4[cono3 + 1] == 'a' && matn4[cono3 + 2] == 't')
+        {
+            for (long long t = cono3 + 4; (matn4[t] != ' ' && matn4[t] != '\0' && matn4[t] != '\n'); t++)
+            {
+                charad2[t - cono3 - 4] = matn4[t];
+                charad2[t - cono3 - 3] = '\0';
+            }
+            flagat2 = 1;
+            if (cono3 < min2)
+                min2 = cono3;
+        }
+        if (matn4[cono3] == '-' && matn4[cono3+1] == '-' && matn4[cono3+2] == 's' && matn4[cono3+3] == 't' && matn4[cono3+4] == 'r' && matn4[cono3+5] == '2' )
+        {
+            str2place = cono3;
+        }
+    }
+    atad2 = atoll(charad2);
+    matn4[min2 - 1] = '\0';
+    for( long long hgh = 0 ; hgh < strlen(matn4) ; hgh++)
+    {
+        if (hgh < str2place - 1){
+            str1[hgh] = matn4[hgh];
+            str1[hgh+1] = '\0';
+        }
+        else if (hgh > str2place + 6)
+        {
+            str2[hgh -str2place - 6 -1] = matn4[hgh];
+            str2[hgh - str2place -6] = '\0';
+        }
+    }
+    if (str1[0] == '*')
+    {
+        flagsb2 = 1;
+        shift(str1, strlen(str1), 0);
+    }
+    if (str1[strlen(str1) - 1] == '*' && str1[strlen(str1) - 2] != '\\')
+    {
+        flagsa2 = 1;
+        str1[strlen(str1) - 1] = '\0';
+    }
+    for (long long uo = 0; uo < strlen(str1); uo++)
+    {
+        if (matn4[uo] == '\\' && matn4[uo + 1] == '*')
+        {
+            str1[uo] = '*';
+            for (long long ouu = uo + 1; ouu < strlen(str1); ouu++)
+            {
+                str1[ouu] = str1[ouu + 1];
+                if (str1[ouu + 2] == '\0')
+                {
+                    str1[ouu + 1] = '\0';
+                    break;
+                }
+            }
+        }
+    }
+    FILE *file2 = fopen(adrpc, "r");
+    if (file2 == NULL)
+    {
+        printf("what the hell the address you intered doesn't exist , astaghforellah bro :(\n");
+        fclose(file2);
+        return 0;
+    }
+    char *text6;
+    char *text7;
+    long long numbytes6;
+    if (file2 == NULL)
+        return 1;
+
+    fseek(file2, 0L, SEEK_END);
+    numbytes6 = ftell(file2);
+    fseek(file2, 0L, SEEK_SET);
+
+    text6 = (char *)calloc(numbytes6, sizeof(char));
+    text7 = (char *)calloc(numbytes6 *3 +1000000 , sizeof(char));
+    if (text6 == NULL)
+        return 1;
+
+    fread(text6, sizeof(char), numbytes6, file2);
+    fclose(file2);
+    char ghavi;
+    long long man , to;
+    if (flagall2 == 1 && flagat2 == 1){
+        printf("sorry the options you choos can't be combined together :(\n");
+    }
 }
 
 int fnd()
@@ -992,6 +1365,14 @@ int runcommand(int cmdnum)
     else if (cmdnum == 8)
     {
         fnd();
+    }
+    else if (cmdnum == 9)
+    {
+        rpc();
+    }
+    else if (cmdnum == 10)
+    {
+        grp();
     }
     else if (cmdnum == 13)
     {
@@ -1740,17 +2121,18 @@ int pst()
     // printf("%lld" , noghte3);
     for (long long nbn3 = 0; nbn3 < numbytes4; nbn3++)
     {
-        if (nbn3 <= noghte3)
+        if (nbn3 < noghte3)
         {
             text4x[nbn3] = text4[nbn3];
             text4x[nbn3 + 1] = '\0';
         }
-        if (nbn3 > noghte3)
+        else
         {
-            text4xx[nbn3 - noghte3] = text4[nbn3];
-            text4xx[nbn3 - noghte3 + 1] = '\0';
+            text4xx[nbn3 - noghte3-1] = text4[nbn3];
+            text4xx[nbn3 - noghte3  ] = '\0';
         }
     }
+    //printf("*%s*" , text4xx);
     FILE *abb = fopen(adp, "w");
     fprintf(abb, "%s%s%s", text4x, clipboard, text4xx);
     fclose(abb);
