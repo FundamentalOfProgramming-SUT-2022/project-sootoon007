@@ -3,6 +3,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <math.h>
+#include <dirent.h>
 // #include <windows.h>
 
 int cmdflag[16];
@@ -13,6 +14,9 @@ char sizer[5] = {'-', 's', 'i', 'z', 'e'};
 char addressrep[100][100];
 char *clipboard;
 char chert;
+int dirintry();
+void tree(char *basePath, const int root , int depth);
+
 
 void zeroaddress()
 {
@@ -63,7 +67,7 @@ char cmd[16][4] = {
     'u', 'n', 'd', ' ',
     'c', 'l', 'p', ' ',
     'c', 'm', 'p', ' ',
-    's', 'd', 't', ' ',
+    'd', 'i', 'r', ' ',
     'f', 'o', 'g', ' '};
 int flag = 0;
 
@@ -135,7 +139,7 @@ int maf()
     for (int addr = 0; addr < 100 && addressrep[addr][0] != NULL; addr++)
     {
         int ret = 0;
-        ret = mkdir(addressrep[addr], 0755);
+        ret = mkdir(addressrep[addr]);
     }
     isorbe(address);
 }
@@ -361,67 +365,175 @@ void cmp()
     return;
 }
 
+int clp()
+{
+    char adcl[300];
+    scanf("%s", adcl);
+    if (strcmp(adcl, "--file"))
+    {
+        printf("you should use <<--file>> befor your address dude\n");
+        return 0;
+    }
+    scanf("%c", &chert);
+    gets(adcl);
+    if (adcl[0] == '"')
+    {
+        shift(adcl, strlen(adcl), 0);
+        adcl[strlen(adcl) - 1] = '\0';
+    }
+    FILE *lee;
+    char *jf = calloc(1000, sizeof(char));
+    char *kf = calloc(2000, sizeof(char));
+    kf[0] = '\0';
+    lee = fopen(adcl, "r");
+    if (lee == NULL)
+    {
+        printf("the file you intered doesn't exist bro !!\n");
+        return 0;
+    }
+    fgets(jf, 1000, lee);
+    fclose(lee);
+    int counteracbaz = 0;
+    int counteracbas = 0;
+    int counternamosh = 0;
+    int length = 0;
+    for (int h = 0; h < strlen(jf); h++)
+    {
+        if (jf[h] == '{')
+        {
+            counteracbaz++;
+            kf[length] = '\n';
+            kf[length + 1] = '\0';
+            length++;
+            for (int p = 0; p < counteracbaz - counteracbas - 1; p++)
+            {
+                kf[length] = '\t';
+                kf[length + 1] = '\0';
+                length++;
+            }
+            kf[length] = '{';
+            kf[length + 1] = '\n';
+            length += 2;
+            for (int p = 0; p < counteracbaz - counteracbas; p++)
+            {
+                kf[length] = '\t';
+                kf[length + 1] = '\0';
+                length++;
+            }
+            continue;
+        }
+        if (jf[h] == '}')
+        {
+            counteracbas++;
+            if (counteracbas > counteracbaz)
+            {
+                printf("the passage is incorrect , there are some wrong aqualad :(\n");
+                return 0;
+            }
+            kf[length] = '\n';
+            kf[length + 1] = '\0';
+            length++;
+            for (int p = 0; p < counteracbaz - counteracbas; p++)
+            {
+                kf[length] = '\t';
+                kf[length + 1] = '\0';
+                length++;
+            }
+            kf[length] = '}';
+            length++;
+            continue;
+        }
+        kf[length] = jf[h];
+        kf[length + 1] = '\0';
+        length++;
+    }
+    if (counteracbas != counteracbaz)
+    {
+        printf("the passage is incorrect , there are some wrong aqualad :(\n");
+        return 0;
+    }
+    lee = fopen(adcl, "w");
+    fprintf(lee, "%s", kf);
+    fclose(lee);
+}
 
-int grp(){
-    char dooo[1000] , addressg[200][100];
-    int flagad=0 , flagc=0 , flagl=0 , jayad , jayresh;
+int grp()
+{
+    char dooo[1000], addressg[200][100];
+    int flagad = 0, flagc = 0, flagl = 0, jayad, jayresh;
     long long min3;
     gets(dooo);
-    if( dooo[0] == '-' && dooo[1] == '-' && dooo[2] == 's' && dooo[3] == 't' && dooo[4] == 'r' ){
+    if (dooo[0] == '-' && dooo[1] == '-' && dooo[2] == 's' && dooo[3] == 't' && dooo[4] == 'r')
+    {
         jayresh = 6;
     }
-    else{
+    else
+    {
         printf("you should use <<--str>> befor your string dude\n");
         return 0;
     }
     min3 = strlen(dooo);
-    for(int q = 0 ; q < strlen(dooo) ; q++){
-        if( dooo[q] == '-' && dooo[q+1] == 'c' && dooo[q+2] == ' '){
+    for (int q = 0; q < strlen(dooo); q++)
+    {
+        if (dooo[q] == '-' && dooo[q + 1] == 'c' && dooo[q + 2] == ' ')
+        {
             flagc = 1;
-            if(q < min3){
-                min3 = q-2 ;
+            if (q < min3)
+            {
+                min3 = q - 2;
             }
         }
-        if( dooo[q] == '-' && dooo[q+1] == 'l' && dooo[q+2] == ' '){
+        if (dooo[q] == '-' && dooo[q + 1] == 'l' && dooo[q + 2] == ' ')
+        {
             flagl = 1;
-            if(q < min3){
-                min3 = q-2 ;
+            if (q < min3)
+            {
+                min3 = q - 2;
             }
         }
-        if( dooo[q] == '-' && dooo[q+1] == '-' && dooo[q+2] == 'f' && dooo[q+3] == 'i' && dooo[q+4] == 'l' && dooo[q+5] == 'e' && dooo[q+6] == 's' ){
+        if (dooo[q] == '-' && dooo[q + 1] == '-' && dooo[q + 2] == 'f' && dooo[q + 3] == 'i' && dooo[q + 4] == 'l' && dooo[q + 5] == 'e' && dooo[q + 6] == 's')
+        {
             flagad = 1;
-            jayad = q+8 ;
-            if(q < min3){
-                min3 = q - 2 ;
+            jayad = q + 8;
+            if (q < min3)
+            {
+                min3 = q - 2;
             }
         }
     }
-    if (flagad == 0){
+    if (flagad == 0)
+    {
         printf("you should use <<--files>> befor your address dude\n");
         return 0;
     }
     long long boros = 0;
-    for(int boro = 0 ; boro < 100 ; boro++){
-    long long counter21 = 0;
-    boros = boro;    
-        if(jayad >= strlen(dooo) || dooo[jayad] == '\n'){
+    for (int boro = 0; boro < 100; boro++)
+    {
+        long long counter21 = 0;
+        boros = boro;
+        if (jayad >= strlen(dooo) || dooo[jayad] == '\n')
+        {
             break;
         }
-        if(dooo[jayad] == '"'){
+        if (dooo[jayad] == '"')
+        {
             jayad++;
-            while(dooo[jayad] != '"'){
+            while (dooo[jayad] != '"')
+            {
                 addressg[boro][counter21] = dooo[jayad];
-                addressg[boro][counter21+1] = '\0';
+                addressg[boro][counter21 + 1] = '\0';
                 jayad++;
                 counter21++;
             }
-            jayad+=2;
+            jayad += 2;
             continue;
         }
-        else{
-           while(dooo[jayad] != ' '){
+        else
+        {
+            while (dooo[jayad] != ' ')
+            {
                 addressg[boro][counter21] = dooo[jayad];
-                addressg[boro][counter21+1] = '\0';
+                addressg[boro][counter21 + 1] = '\0';
                 jayad++;
                 counter21++;
             }
@@ -429,154 +541,175 @@ int grp(){
             continue;
         }
     }
-    dooo[min3+1] = '\0';
-    char *strg = dooo+6;
-    char *mant = (char *)calloc(10000 ,sizeof(char));
-    FILE* af;
+    dooo[min3 + 1] = '\0';
+    char *strg = dooo + 6;
+    char *mant = (char *)calloc(10000, sizeof(char));
+    FILE *af;
     int flagg;
     char rep;
 
-    if (flagl == 0 && flagc == 0){
+    if (flagl == 0 && flagc == 0)
+    {
         int flagr = 0;
         printf("------------------------------------------------------------\n");
-        for(int lk = 0 ; lk < boros ; lk++){
-            af = fopen(addressg[lk] , "r");
-            if(af == NULL){
+        for (int lk = 0; lk < boros; lk++)
+        {
+            af = fopen(addressg[lk], "r");
+            if (af == NULL)
+            {
                 printf("the file you intered doesn't exist bro !!\n");
                 printf("------------------------------------------------------------\n");
 
                 return 0;
             }
-            else {
+            else
+            {
 
-                while(fgets(mant , 10000 , af)){
-                    for(int qq = 0 ; qq < strlen(mant)  ; qq++){
+                while (fgets(mant, 10000, af))
+                {
+                    for (int qq = 0; qq < strlen(mant); qq++)
+                    {
                         flagg = 0;
-                        rep = mant[qq+strlen(strg)];
-                        mant[qq+strlen(strg)] = '\0';
-                        //printf("%s==" , mant+qq);
-                        if(strcmp(mant+qq , strg) == 0 ){
-                            mant[qq+strlen(strg)] = rep;
-                            printf("%s" , mant);
+                        rep = mant[qq + strlen(strg)];
+                        mant[qq + strlen(strg)] = '\0';
+                        // printf("%s==" , mant+qq);
+                        if (strcmp(mant + qq, strg) == 0)
+                        {
+                            mant[qq + strlen(strg)] = rep;
+                            printf("%s", mant);
                             flagr = 1;
                             break;
                         }
-                        mant[qq+strlen(strg)] = rep;
+                        mant[qq + strlen(strg)] = rep;
                         continue;
                     }
                     continue;
                 }
-                
             }
-                fclose(af);
-                continue;
+            fclose(af);
+            continue;
         }
-        if(flagr == 0){
+        if (flagr == 0)
+        {
             printf("sorry no file has the string you want ...\n");
         }
         printf("------------------------------------------------------------\n");
     }
-    else if(flagc == 1 && flagl == 0){
-            long long vayyy = 0;
-            for(int lk = 0 ; lk < boros ; lk++){
-            af = fopen(addressg[lk] , "r");
-            if(af == NULL){
+    else if (flagc == 1 && flagl == 0)
+    {
+        long long vayyy = 0;
+        for (int lk = 0; lk < boros; lk++)
+        {
+            af = fopen(addressg[lk], "r");
+            if (af == NULL)
+            {
                 printf("the file you intered doesn't exist bro !!");
                 return 0;
             }
-            else{
-                while(fgets(mant , 10000 , af)){
-                    for(int qq = 0 ; qq < strlen(mant)  ; qq++){
+            else
+            {
+                while (fgets(mant, 10000, af))
+                {
+                    for (int qq = 0; qq < strlen(mant); qq++)
+                    {
                         flagg = 0;
-                        rep = mant[qq+strlen(strg)];
-                        mant[qq+strlen(strg)] = '\0';
-                        //printf("%s==" , mant+qq);
-                        if(strcmp(mant+qq , strg) == 0 ){
-                            mant[qq+strlen(strg)] = rep;
+                        rep = mant[qq + strlen(strg)];
+                        mant[qq + strlen(strg)] = '\0';
+                        // printf("%s==" , mant+qq);
+                        if (strcmp(mant + qq, strg) == 0)
+                        {
+                            mant[qq + strlen(strg)] = rep;
                             vayyy++;
                             break;
                         }
-                        mant[qq+strlen(strg)] = rep;
+                        mant[qq + strlen(strg)] = rep;
                         continue;
                     }
                     continue;
                 }
-                
             }
-                fclose(af);
-                continue;
+            fclose(af);
+            continue;
         }
-        printf("%lld\n" , vayyy );
+        printf("%lld\n", vayyy);
     }
-    else if (flagl == 1 && flagc == 0){
+    else if (flagl == 1 && flagc == 0)
+    {
         long long vay = 0;
-        int list[100] = {0} ;
+        int list[100] = {0};
         int flagma = 0;
-        for(int lk = 0 ; lk < boros ; lk++){
-            af = fopen(addressg[lk] , "r");
-            if(af == NULL){
+        for (int lk = 0; lk < boros; lk++)
+        {
+            af = fopen(addressg[lk], "r");
+            if (af == NULL)
+            {
                 printf("the file you intered doesn't exist bro !!");
                 return 0;
             }
-            else{
-                while(fgets(mant , 10000 , af)){
-                    for(int qq = 0 ; qq < strlen(mant)  ; qq++){
+            else
+            {
+                while (fgets(mant, 10000, af))
+                {
+                    for (int qq = 0; qq < strlen(mant); qq++)
+                    {
                         flagg = 0;
-                        rep = mant[qq+strlen(strg)];
-                        mant[qq+strlen(strg)] = '\0';
-                        //printf("%s==" , mant+qq);
-                        if(strcmp(mant+qq , strg) == 0 ){
-                            mant[qq+strlen(strg)] = rep;
+                        rep = mant[qq + strlen(strg)];
+                        mant[qq + strlen(strg)] = '\0';
+                        // printf("%s==" , mant+qq);
+                        if (strcmp(mant + qq, strg) == 0)
+                        {
+                            mant[qq + strlen(strg)] = rep;
                             list[lk] = 1;
                             vay++;
                             break;
                         }
-                        mant[qq+strlen(strg)] = rep;
+                        mant[qq + strlen(strg)] = rep;
                         continue;
                     }
                     if (list[lk] == 1)
                     {
                         break;
                     }
-                    else{
+                    else
+                    {
                         continue;
                     }
-                    
                 }
-                
             }
-                fclose(af);
-                continue;
+            fclose(af);
+            continue;
         }
         printf("------------------------------------------------------------\n");
         int sr = 1;
-        for(int ff = 0 ; ff < boros ; ff++){
-                    if(list[ff] == 1){
-                        printf("file number %d : %s\n" ,sr ,  addressg[ff]);
-                        flagma = 1;
-                        sr++;
-                    }
-                }
-                if(flagma == 0){
-                    printf("sorry no file has the string you want ...\n");
-                }
-                printf("------------------------------------------------------------\n");
-                return 0;
+        for (int ff = 0; ff < boros; ff++)
+        {
+            if (list[ff] == 1)
+            {
+                printf("file number %d : %s\n", sr, addressg[ff]);
+                flagma = 1;
+                sr++;
+            }
+        }
+        if (flagma == 0)
+        {
+            printf("sorry no file has the string you want ...\n");
+        }
+        printf("------------------------------------------------------------\n");
+        return 0;
     }
-    else if (flagl == 1 && flagc == 1){
+    else if (flagl == 1 && flagc == 1)
+    {
         printf("sorry the options you choose can't be combined together :(\n");
         return 0;
     }
-    
 }
-
 
 int rpc()
 {
     int flagat2 = 0, flagall2 = 0;
     char araa3[6], tempo2, str7[7], adrpc[200];
-    long long counter20, counter21, tedadhorof5, jaygah4, min2, atad2 , str2place;
-    char matn4[100000] , str1[50000] , str2[50000];
+    long long counter20, counter21, tedadhorof5, jaygah4, min2, atad2, str2place;
+    char matn4[100000], str1[50000], str2[50000];
     int spaceflag5, flagsb2 = 0, flagsa2 = 0;
     scanf("%s", &araa3);
     for (int z = 0; z < 6; z++)
@@ -657,23 +790,24 @@ int rpc()
             if (cono3 < min2)
                 min2 = cono3;
         }
-        if (matn4[cono3] == '-' && matn4[cono3+1] == '-' && matn4[cono3+2] == 's' && matn4[cono3+3] == 't' && matn4[cono3+4] == 'r' && matn4[cono3+5] == '2' )
+        if (matn4[cono3] == '-' && matn4[cono3 + 1] == '-' && matn4[cono3 + 2] == 's' && matn4[cono3 + 3] == 't' && matn4[cono3 + 4] == 'r' && matn4[cono3 + 5] == '2')
         {
             str2place = cono3;
         }
     }
     atad2 = atoll(charad2);
     matn4[min2 - 1] = '\0';
-    for( long long hgh = 0 ; hgh < strlen(matn4) ; hgh++)
+    for (long long hgh = 0; hgh < strlen(matn4); hgh++)
     {
-        if (hgh < str2place - 1){
+        if (hgh < str2place - 1)
+        {
             str1[hgh] = matn4[hgh];
-            str1[hgh+1] = '\0';
+            str1[hgh + 1] = '\0';
         }
         else if (hgh > str2place + 6)
         {
-            str2[hgh -str2place - 6 -1] = matn4[hgh];
-            str2[hgh - str2place -6] = '\0';
+            str2[hgh - str2place - 6 - 1] = matn4[hgh];
+            str2[hgh - str2place - 6] = '\0';
         }
     }
     if (str1[0] == '*')
@@ -720,15 +854,16 @@ int rpc()
     fseek(file2, 0L, SEEK_SET);
 
     text6 = (char *)calloc(numbytes6, sizeof(char));
-    text7 = (char *)calloc(numbytes6 *3 +1000000 , sizeof(char));
+    text7 = (char *)calloc(numbytes6 * 3 + 1000000, sizeof(char));
     if (text6 == NULL)
         return 1;
 
     fread(text6, sizeof(char), numbytes6, file2);
     fclose(file2);
     char ghavi;
-    long long man , to;
-    if (flagall2 == 1 && flagat2 == 1){
+    long long man, to;
+    if (flagall2 == 1 && flagat2 == 1)
+    {
         printf("sorry the options you choos can't be combined together :(\n");
     }
 }
@@ -1374,9 +1509,16 @@ int runcommand(int cmdnum)
     {
         grp();
     }
+    else if (cmdnum == 12)
+    {
+        clp();
+    }
     else if (cmdnum == 13)
     {
         cmp();
+    }
+    else if (cmdnum == 14){
+        dirintry();
     }
 }
 
@@ -2128,14 +2270,67 @@ int pst()
         }
         else
         {
-            text4xx[nbn3 - noghte3-1] = text4[nbn3];
-            text4xx[nbn3 - noghte3  ] = '\0';
+            text4xx[nbn3 - noghte3 - 1] = text4[nbn3];
+            text4xx[nbn3 - noghte3] = '\0';
         }
     }
-    //printf("*%s*" , text4xx);
+    // printf("*%s*" , text4xx);
     FILE *abb = fopen(adp, "w");
     fprintf(abb, "%s%s%s", text4x, clipboard, text4xx);
     fclose(abb);
+}
+
+int dirintry(){
+    char path[100] = "root";
+    int deep;
+    scanf("%d" , &deep);
+    if(deep > 0)
+    tree(path, 0 , deep);
+    else if(deep == -1){
+    tree(path , 0 , 150);}
+    else if (deep < -1 ){
+      printf("the depth you intered isn't valid :(\n");
+      return 0;
+    }
+    return 0;
+}
+void tree(char *basePath, const int root , int depth)
+{  
+    if(root >= depth*2 ){
+      return ;
+    }
+    int i;
+    char path[1000];
+    struct dirent *dp;
+    DIR *dir = opendir(basePath);
+
+    if (!dir)
+        return;
+
+    while ((dp = readdir(dir)) != NULL)
+    {
+        if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
+        {
+            for (i=0; i<root; i++) 
+            {
+                if (i%2 == 0 || i == 0)
+                    printf("%c", 179);
+                else
+                    printf(" ");
+
+            }
+
+            printf("%c%c%s\n", 195, 196 , dp->d_name);
+
+            strcpy(path, basePath);
+            strcat(path, "/");
+            strcat(path, dp->d_name);
+            tree(path, root + 2 , depth);
+        }
+    }
+
+    closedir(dir);
+    return;
 }
 
 void print_commands()
@@ -2153,7 +2348,7 @@ void print_commands()
     printf("to undo the previous move :\t und \n");
     printf("to closing pairs :\t\t clp \n");
     printf("to compare text in two files :\t cmp \n");
-    printf("to show the directory tree :\t std \n");
+    printf("to show the directory tree :\t dir \n");
     printf("to do fog :\t\t\t fog \n");
     printf("pleas note that an empty space is needed end of each command !!! \n");
 }
