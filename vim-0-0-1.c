@@ -16,7 +16,72 @@ char *clipboard;
 char chert;
 int dirintry();
 void tree(char *basePath, const int root , int depth);
+int undo();
+int tedadundo = 0 ;
 
+struct undo
+{
+    char *xt;
+    char makan[250];
+};
+struct undo listundo[150];
+
+int undo2(char *adun2 ){
+    for(int rr =0 ; rr < strlen(adun2) ; rr++){
+        listundo[tedadundo].makan[rr] = adun2[rr];
+        listundo[tedadundo].makan[rr+1] = '\0';
+    }
+    FILE *check = fopen(adun2 , "r");
+    if(check == NULL){
+        printf("the file you intered doesn't exist bro !!\n");
+        fclose(check);
+        return 0;
+    }
+    long long numbytes10;
+    if (check == NULL)
+        return 1;
+
+    fseek(check, 0L, SEEK_END);
+    numbytes10 = ftell(check);
+    fseek(check, 0L, SEEK_SET);
+
+    listundo[tedadundo].xt = (char *)calloc(numbytes10, sizeof(char));
+    if (listundo[tedadundo].xt == NULL)
+        return 1;
+
+    fread(listundo[tedadundo].xt , sizeof(char), numbytes10, check);
+    tedadundo++;
+    fclose(check);
+}
+
+int undo(){
+    char *adun = (char *)calloc(300 , sizeof(char));
+    scanf("%s", adun);
+    if (strcmp(adun, "--file"))
+    {
+        printf("you should use <<--file>> befor your address dude\n");
+        return 0;
+    }
+    scanf("%c", &chert);
+    gets(adun);
+    if (adun[0] == '"')
+    {
+        shift(adun, strlen(adun), 0);
+        adun[strlen(adun) - 1] = '\0';
+    }
+    for(int un = tedadundo ; un >= 0 ; un--){
+        if (strcmp(listundo[un].makan , adun) == 0){
+            int x = undo2(adun);
+            FILE *fileundo = fopen(adun , "w");
+            fprintf(fileundo , "%s" , listundo[un].xt );
+            fclose(fileundo);
+            return 0;
+        }
+    }
+    printf("you have nothing to undo ... \n");
+    return 0 ;
+    
+}
 
 void zeroaddress()
 {
@@ -376,6 +441,7 @@ int clp()
     }
     scanf("%c", &chert);
     gets(adcl);
+
     if (adcl[0] == '"')
     {
         shift(adcl, strlen(adcl), 0);
@@ -455,8 +521,18 @@ int clp()
     lee = fopen(adcl, "w");
     fprintf(lee, "%s", kf);
     fclose(lee);
+    for(int ew = 0 ; ew < strlen(adcl) ; ew++){
+        listundo[tedadundo].makan[ew] = adcl[ew];
+        listundo[tedadundo].makan[ew+1] = '\0'; 
+    }
+    listundo[tedadundo].xt = (char *)calloc(1000 , sizeof(char));
+    for(int ew = 0 ; ew < strlen(jf) ; ew++){
+        listundo[tedadundo].xt[ew] = jf[ew];
+        listundo[tedadundo].xt[ew+1] = '\0'; 
+    }
+    tedadundo++;
+    return 0;
 }
-
 int grp()
 {
     char dooo[1000], addressg[200][100];
@@ -1509,6 +1585,10 @@ int runcommand(int cmdnum)
     {
         grp();
     }
+    else if (cmdnum == 11)
+    {
+        undo();
+    }
     else if (cmdnum == 12)
     {
         clp();
@@ -1768,6 +1848,16 @@ int insert()
 
     fread(text, sizeof(char), numbytes, textfile);
     fclose(textfile);
+    for(int ew = 0 ; ew < strlen(adressin) ; ew++){
+        listundo[tedadundo].makan[ew] = adressin[ew];
+        listundo[tedadundo].makan[ew+1] = '\0'; 
+    }
+    listundo[tedadundo].xt = (char *)calloc(numbytes , sizeof(char));
+    for(int ew = 0 ; ew < strlen(text) ; ew++){
+        listundo[tedadundo].xt[ew] = text[ew];
+        listundo[tedadundo].xt[ew+1] = '\0'; 
+    }
+    tedadundo++;
 
     // printf("%s\n" ,text);
     char *nime1 = (char *)calloc(numbytes + 1000000, sizeof(char));
@@ -1980,7 +2070,17 @@ int cop(int flager)
         }
     }
     if (flager == 1)
-    {
+    {   for(int ew = 0 ; ew < strlen(adco) ; ew++){
+        listundo[tedadundo].makan[ew] = adco[ew];
+        listundo[tedadundo].makan[ew+1] = '\0'; 
+        }
+        listundo[tedadundo].xt = (char *)calloc(numbytes3 , sizeof(char));
+        for(int ew = 0 ; ew < strlen(text3) ; ew++){
+        listundo[tedadundo].xt[ew] = text3[ew];
+        listundo[tedadundo].xt[ew+1] = '\0'; 
+        }
+        tedadundo++;
+        
         if (dire2 == -1)
         {
             noghte2 -= size3;
@@ -2127,6 +2227,16 @@ int rmv()
 
     fread(text2, sizeof(char), numbytes2, textfile2);
     fclose(textfile2);
+    for(int ew = 0 ; ew < strlen(addressrm) ; ew++){
+        listundo[tedadundo].makan[ew] = addressrm[ew];
+        listundo[tedadundo].makan[ew+1] = '\0'; 
+    }
+    listundo[tedadundo].xt = (char *)calloc(numbytes2 , sizeof(char));
+    for(int ew = 0 ; ew < strlen(text2) ; ew++){
+        listundo[tedadundo].xt[ew] = text2[ew];
+        listundo[tedadundo].xt[ew+1] = '\0'; 
+    }
+    tedadundo++;
     long long noghte = remover(text2, poskh, posek) - 1;
     if (dire == -1)
     {
@@ -2259,6 +2369,18 @@ int pst()
 
     fread(text4, sizeof(char), numbytes4, textfile4);
     fclose(textfile4);
+
+    for(int ew = 0 ; ew < strlen(adp) ; ew++){
+        listundo[tedadundo].makan[ew] = adp[ew];
+        listundo[tedadundo].makan[ew+1] = '\0'; 
+    }
+    listundo[tedadundo].xt = (char *)calloc(numbytes4 , sizeof(char));
+    for(int ew = 0 ; ew < strlen(text4) ; ew++){
+        listundo[tedadundo].xt[ew] = text4[ew];
+        listundo[tedadundo].xt[ew+1] = '\0'; 
+    }
+    tedadundo++;
+
     long long noghte3 = remover(text4, poskh3, posek4);
     // printf("%lld" , noghte3);
     for (long long nbn3 = 0; nbn3 < numbytes4; nbn3++)
