@@ -15,9 +15,9 @@ char addressrep[100][100];
 char *clipboard;
 char chert;
 int dirintry();
-void tree(char *basePath, const int root , int depth);
+void tree(char *basePath, const int root, int depth);
 int undo();
-int tedadundo = 0 ;
+int tedadundo = 0;
 
 struct undo
 {
@@ -26,13 +26,16 @@ struct undo
 };
 struct undo listundo[150];
 
-int undo2(char *adun2 ){
-    for(int rr =0 ; rr < strlen(adun2) ; rr++){
+int undo2(char *adun2)
+{
+    for (int rr = 0; rr < strlen(adun2); rr++)
+    {
         listundo[tedadundo].makan[rr] = adun2[rr];
-        listundo[tedadundo].makan[rr+1] = '\0';
+        listundo[tedadundo].makan[rr + 1] = '\0';
     }
-    FILE *check = fopen(adun2 , "r");
-    if(check == NULL){
+    FILE *check = fopen(adun2, "r");
+    if (check == NULL)
+    {
         printf("the file you intered doesn't exist bro !!\n");
         fclose(check);
         return 0;
@@ -49,13 +52,14 @@ int undo2(char *adun2 ){
     if (listundo[tedadundo].xt == NULL)
         return 1;
 
-    fread(listundo[tedadundo].xt , sizeof(char), numbytes10, check);
+    fread(listundo[tedadundo].xt, sizeof(char), numbytes10, check);
     tedadundo++;
     fclose(check);
 }
 
-int undo(){
-    char *adun = (char *)calloc(300 , sizeof(char));
+int undo()
+{
+    char *adun = (char *)calloc(300, sizeof(char));
     scanf("%s", adun);
     if (strcmp(adun, "--file"))
     {
@@ -69,18 +73,19 @@ int undo(){
         shift(adun, strlen(adun), 0);
         adun[strlen(adun) - 1] = '\0';
     }
-    for(int un = tedadundo ; un >= 0 ; un--){
-        if (strcmp(listundo[un].makan , adun) == 0){
+    for (int un = tedadundo; un >= 0; un--)
+    {
+        if (strcmp(listundo[un].makan, adun) == 0)
+        {
             int x = undo2(adun);
-            FILE *fileundo = fopen(adun , "w");
-            fprintf(fileundo , "%s" , listundo[un].xt );
+            FILE *fileundo = fopen(adun, "w");
+            fprintf(fileundo, "%s", listundo[un].xt);
             fclose(fileundo);
             return 0;
         }
     }
     printf("you have nothing to undo ... \n");
-    return 0 ;
-    
+    return 0;
 }
 
 void zeroaddress()
@@ -521,14 +526,16 @@ int clp()
     lee = fopen(adcl, "w");
     fprintf(lee, "%s", kf);
     fclose(lee);
-    for(int ew = 0 ; ew < strlen(adcl) ; ew++){
+    for (int ew = 0; ew < strlen(adcl); ew++)
+    {
         listundo[tedadundo].makan[ew] = adcl[ew];
-        listundo[tedadundo].makan[ew+1] = '\0'; 
+        listundo[tedadundo].makan[ew + 1] = '\0';
     }
-    listundo[tedadundo].xt = (char *)calloc(1000 , sizeof(char));
-    for(int ew = 0 ; ew < strlen(jf) ; ew++){
+    listundo[tedadundo].xt = (char *)calloc(1000, sizeof(char));
+    for (int ew = 0; ew < strlen(jf); ew++)
+    {
         listundo[tedadundo].xt[ew] = jf[ew];
-        listundo[tedadundo].xt[ew+1] = '\0'; 
+        listundo[tedadundo].xt[ew + 1] = '\0';
     }
     tedadundo++;
     return 0;
@@ -936,12 +943,308 @@ int rpc()
 
     fread(text6, sizeof(char), numbytes6, file2);
     fclose(file2);
+
+    for (int ew = 0; ew < strlen(adrpc); ew++)
+    {
+        listundo[tedadundo].makan[ew] = adrpc[ew];
+        listundo[tedadundo].makan[ew + 1] = '\0';
+    }
+    listundo[tedadundo].xt = (char *)calloc(numbytes6, sizeof(char));
+    for (int ew = 0; ew < strlen(text6); ew++)
+    {
+        listundo[tedadundo].xt[ew] = text6[ew];
+        listundo[tedadundo].xt[ew + 1] = '\0';
+    }
+    tedadundo++;
+
     char ghavi;
     long long man, to;
     if (flagall2 == 1 && flagat2 == 1)
     {
         printf("sorry the options you choos can't be combined together :(\n");
+        return 0;
     }
+    else if (flagall2 == 1 && flagat2 == 0)
+    {
+        int flagv = 0;
+        for (long long cono = 0; cono < strlen(text6); cono++)
+        {
+
+            ghavi = text6[cono + strlen(str1)];
+            text6[strlen(str1) + cono] = '\0';
+            if (strcmp(text6 + cono, str1) == 0 && flagsb2 == 0 && flagsa2 == 0)
+            {
+                text6[cono + strlen(str1)] = ghavi;
+                for (int ii = 0; ii < cono; ii++)
+                {
+                    text7[ii] = text6[ii];
+                    text7[ii + 1] = '\0';
+                }
+                man = strlen(text7);
+                for (int jj = man; jj < man + strlen(str2); jj++)
+                {
+                    text7[jj] = str2[jj - man];
+                    text7[jj + 1] = '\0';
+                }
+                man = strlen(text7);
+                for (int aa = 0; aa < strlen(text6) - cono - strlen(str1); aa++)
+                {
+                    text7[aa + man] = text6[aa + cono + strlen(str1)];
+                    text7[aa + man + 1] = '\0';
+                }
+                for (int bb = 0; bb < strlen(text7); bb++)
+                {
+                    text6[bb] = text7[bb];
+                    text6[bb + 1] = '\0';
+                }
+                cono = man - 1;
+                flagv = 1;
+                continue;
+            }
+            else if (strcmp(text6 + cono, str1) == 0 && flagsb2 == 1 && flagsa2 == 0)
+            {
+                text6[cono + strlen(str1)] = ghavi;
+                long long cono2 = cono;
+                while (text6[cono2 - 1] != ' ' && cono2 >= 0 && text6[cono2 - 1] != '\n')
+                {
+                    cono2--;
+                }
+                text7[0] = '\0';
+                for (int ii = 0; ii < cono2; ii++)
+                {
+                    text7[ii] = text6[ii];
+                    text7[ii + 1] = '\0';
+                }
+                man = strlen(text7);
+                for (int jj = man; jj < man + strlen(str2); jj++)
+                {
+                    text7[jj] = str2[jj - man];
+                    text7[jj + 1] = '\0';
+                }
+                man = strlen(text7);
+                for (int aa = 0; aa < strlen(text6) - cono - strlen(str1); aa++)
+                {
+                    text7[aa + man] = text6[aa + cono + strlen(str1)];
+                    text7[aa + man + 1] = '\0';
+                }
+                text6[0] = '\0';
+                for (int bb = 0; bb < strlen(text7); bb++)
+                {
+                    text6[bb] = text7[bb];
+                    text6[bb + 1] = '\0';
+                }
+                cono = man - 1;
+                flagv = 1;
+                continue;
+            }
+            else if (strcmp(text6 + cono, str1) == 0 && flagsb2 == 0 && flagsa2 == 1)
+            {
+                text6[cono + strlen(str1)] = ghavi;
+                if (ghavi != '\0' && ghavi != EOF)
+                {
+                    long long cono2 = cono;
+                    while (text6[cono2 + 1] != ' ' && cono2 < strlen(text6) && text6[cono2 + 1] != '\n')
+                    {
+                        cono2++;
+                    }
+                    for (int ii = 0; ii < cono; ii++)
+                    {
+                        text7[ii] = text6[ii];
+                        text7[ii + 1] = '\0';
+                    }
+                    man = strlen(text7);
+                    for (int jj = man; jj < man + strlen(str2); jj++)
+                    {
+                        text7[jj] = str2[jj - man];
+                        text7[jj + 1] = '\0';
+                    }
+                    man = strlen(text7);
+                    for (int aa = 0; aa < strlen(text6) - cono - strlen(str1); aa++)
+                    {
+                        text7[aa + man] = text6[aa + cono + strlen(str1) + (cono2 - cono)];
+                        text7[aa + man + 1] = '\0';
+                    }
+                    for (int bb = 0; bb < strlen(text7); bb++)
+                    {
+                        text6[bb] = text7[bb];
+                        text6[bb + 1] = '\0';
+                    }
+                    cono = man;
+                    flagv = 1;
+                    continue;
+                }
+                else
+                {
+                    cono += numbytes6;
+                }
+            }
+            text6[cono + strlen(str1)] = ghavi;
+        }
+
+        if (flagv != 0)
+        {
+            FILE *eshgh = fopen(adrpc, "w");
+            fprintf(eshgh, "%s", text7);
+            fclose(eshgh);
+            return 0;
+        }
+        if (flagv == 0)
+            printf("the string you intered dosen't exist in the passage :(\n");
+        return 0;
+    }
+
+    else if (flagall2 == 0 && flagat2 == 0)
+    {
+        atad2 = 1;
+        flagat2 = 1;
+    }
+    if (flagall2 == 0 && flagat2 == 1)
+    {
+        int flagv = 0;
+        for (long long cono = 0; cono < strlen(text6); cono++)
+        {
+
+            ghavi = text6[cono + strlen(str1)];
+            text6[strlen(str1) + cono] = '\0';
+            if (strcmp(text6 + cono, str1) == 0 && flagsb2 == 0 && flagsa2 == 0)
+            {
+                text6[cono + strlen(str1)] = ghavi;
+                flagv++;
+                if (flagv == atad2)
+                {
+                    for (int ii = 0; ii < cono; ii++)
+                    {
+                        text7[ii] = text6[ii];
+                        text7[ii + 1] = '\0';
+                    }
+                    man = strlen(text7);
+                    for (int jj = man; jj < man + strlen(str2); jj++)
+                    {
+                        text7[jj] = str2[jj - man];
+                        text7[jj + 1] = '\0';
+                    }
+                    man = strlen(text7);
+                    for (int aa = 0; aa < strlen(text6) - cono - strlen(str1); aa++)
+                    {
+                        text7[aa + man] = text6[aa + cono + strlen(str1)];
+                        text7[aa + man + 1] = '\0';
+                    }
+                    for (int bb = 0; bb < strlen(text7); bb++)
+                    {
+                        text6[bb] = text7[bb];
+                        text6[bb + 1] = '\0';
+                    }
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            else if (strcmp(text6 + cono, str1) == 0 && flagsb2 == 1 && flagsa2 == 0)
+            {
+                text6[cono + strlen(str1)] = ghavi;
+                flagv++;
+                if (flagv == atad2)
+                {
+                    long long cono2 = cono;
+                    while (text6[cono2 - 1] != ' ' && cono2 >= 0 && text6[cono2 - 1] != '\n')
+                    {
+                        cono2--;
+                    }
+                    for (int ii = 0; ii < cono2; ii++)
+                    {
+                        text7[ii] = text6[ii];
+                        text7[ii + 1] = '\0';
+                    }
+                    man = strlen(text7);
+                    for (int jj = man; jj < man + strlen(str2); jj++)
+                    {
+                        text7[jj] = str2[jj - man];
+                        text7[jj + 1] = '\0';
+                    }
+                    man = strlen(text7);
+                    for (int aa = 0; aa < strlen(text6) - cono - strlen(str1); aa++)
+                    {
+                        text7[aa + man] = text6[aa + cono + strlen(str1)];
+                        text7[aa + man + 1] = '\0';
+                    }
+                    for (int bb = 0; bb < strlen(text7); bb++)
+                    {
+                        text6[bb] = text7[bb];
+                        text6[bb + 1] = '\0';
+                    }
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            else if (strcmp(text6 + cono, str1) == 0 && flagsb2 == 0 && flagsa2 == 1)
+            {
+                text6[cono + strlen(str1)] = ghavi;
+                flagv++;
+                if (flagv == atad2)
+                {
+                    if (ghavi != '\0' && ghavi != EOF)
+                    {
+                        long long cono2 = cono;
+                        while (text6[cono2 + 1] != ' ' && cono2 < strlen(text6) && text6[cono2 + 1] != '\n')
+                        {
+                            cono2++;
+                        }
+                        for (int ii = 0; ii < cono; ii++)
+                        {
+                            text7[ii] = text6[ii];
+                            text7[ii + 1] = '\0';
+                        }
+                        man = strlen(text7);
+                        for (int jj = man; jj < man + strlen(str2); jj++)
+                        {
+                            text7[jj] = str2[jj - man];
+                            text7[jj + 1] = '\0';
+                        }
+                        man = strlen(text7);
+                        for (int aa = 0; aa < strlen(text6) - cono - strlen(str1); aa++)
+                        {
+                            text7[aa + man] = text6[aa + cono + strlen(str1) + (cono2 - cono)];
+                            text7[aa + man + 1] = '\0';
+                        }
+                        for (int bb = 0; bb < strlen(text7); bb++)
+                        {
+                            text6[bb] = text7[bb];
+                            text6[bb + 1] = '\0';
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        cono += numbytes6;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            text6[cono + strlen(str1)] = ghavi;
+        }
+        if (flagv == 0)
+        {
+            printf("the string you intered dosen't exist in the passage :(\n");
+            return 0;
+        }
+        if (flagv < atad2)
+        {
+            printf("the index you intered doesn't exist in the passage !!\n");
+            return 0;
+        }
+    }
+    FILE *eshgh = fopen(adrpc, "w");
+    fprintf(eshgh, "%s", text7);
+    fclose(eshgh);
+    return 0;
 }
 
 int fnd()
@@ -1597,7 +1900,8 @@ int runcommand(int cmdnum)
     {
         cmp();
     }
-    else if (cmdnum == 14){
+    else if (cmdnum == 14)
+    {
         dirintry();
     }
 }
@@ -1848,14 +2152,16 @@ int insert()
 
     fread(text, sizeof(char), numbytes, textfile);
     fclose(textfile);
-    for(int ew = 0 ; ew < strlen(adressin) ; ew++){
+    for (int ew = 0; ew < strlen(adressin); ew++)
+    {
         listundo[tedadundo].makan[ew] = adressin[ew];
-        listundo[tedadundo].makan[ew+1] = '\0'; 
+        listundo[tedadundo].makan[ew + 1] = '\0';
     }
-    listundo[tedadundo].xt = (char *)calloc(numbytes , sizeof(char));
-    for(int ew = 0 ; ew < strlen(text) ; ew++){
+    listundo[tedadundo].xt = (char *)calloc(numbytes, sizeof(char));
+    for (int ew = 0; ew < strlen(text); ew++)
+    {
         listundo[tedadundo].xt[ew] = text[ew];
-        listundo[tedadundo].xt[ew+1] = '\0'; 
+        listundo[tedadundo].xt[ew + 1] = '\0';
     }
     tedadundo++;
 
@@ -2070,17 +2376,20 @@ int cop(int flager)
         }
     }
     if (flager == 1)
-    {   for(int ew = 0 ; ew < strlen(adco) ; ew++){
-        listundo[tedadundo].makan[ew] = adco[ew];
-        listundo[tedadundo].makan[ew+1] = '\0'; 
+    {
+        for (int ew = 0; ew < strlen(adco); ew++)
+        {
+            listundo[tedadundo].makan[ew] = adco[ew];
+            listundo[tedadundo].makan[ew + 1] = '\0';
         }
-        listundo[tedadundo].xt = (char *)calloc(numbytes3 , sizeof(char));
-        for(int ew = 0 ; ew < strlen(text3) ; ew++){
-        listundo[tedadundo].xt[ew] = text3[ew];
-        listundo[tedadundo].xt[ew+1] = '\0'; 
+        listundo[tedadundo].xt = (char *)calloc(numbytes3, sizeof(char));
+        for (int ew = 0; ew < strlen(text3); ew++)
+        {
+            listundo[tedadundo].xt[ew] = text3[ew];
+            listundo[tedadundo].xt[ew + 1] = '\0';
         }
         tedadundo++;
-        
+
         if (dire2 == -1)
         {
             noghte2 -= size3;
@@ -2227,14 +2536,16 @@ int rmv()
 
     fread(text2, sizeof(char), numbytes2, textfile2);
     fclose(textfile2);
-    for(int ew = 0 ; ew < strlen(addressrm) ; ew++){
+    for (int ew = 0; ew < strlen(addressrm); ew++)
+    {
         listundo[tedadundo].makan[ew] = addressrm[ew];
-        listundo[tedadundo].makan[ew+1] = '\0'; 
+        listundo[tedadundo].makan[ew + 1] = '\0';
     }
-    listundo[tedadundo].xt = (char *)calloc(numbytes2 , sizeof(char));
-    for(int ew = 0 ; ew < strlen(text2) ; ew++){
+    listundo[tedadundo].xt = (char *)calloc(numbytes2, sizeof(char));
+    for (int ew = 0; ew < strlen(text2); ew++)
+    {
         listundo[tedadundo].xt[ew] = text2[ew];
-        listundo[tedadundo].xt[ew+1] = '\0'; 
+        listundo[tedadundo].xt[ew + 1] = '\0';
     }
     tedadundo++;
     long long noghte = remover(text2, poskh, posek) - 1;
@@ -2370,14 +2681,16 @@ int pst()
     fread(text4, sizeof(char), numbytes4, textfile4);
     fclose(textfile4);
 
-    for(int ew = 0 ; ew < strlen(adp) ; ew++){
+    for (int ew = 0; ew < strlen(adp); ew++)
+    {
         listundo[tedadundo].makan[ew] = adp[ew];
-        listundo[tedadundo].makan[ew+1] = '\0'; 
+        listundo[tedadundo].makan[ew + 1] = '\0';
     }
-    listundo[tedadundo].xt = (char *)calloc(numbytes4 , sizeof(char));
-    for(int ew = 0 ; ew < strlen(text4) ; ew++){
+    listundo[tedadundo].xt = (char *)calloc(numbytes4, sizeof(char));
+    for (int ew = 0; ew < strlen(text4); ew++)
+    {
         listundo[tedadundo].xt[ew] = text4[ew];
-        listundo[tedadundo].xt[ew+1] = '\0'; 
+        listundo[tedadundo].xt[ew + 1] = '\0';
     }
     tedadundo++;
 
@@ -2402,24 +2715,29 @@ int pst()
     fclose(abb);
 }
 
-int dirintry(){
+int dirintry()
+{
     char path[100] = "root";
     int deep;
-    scanf("%d" , &deep);
-    if(deep > 0)
-    tree(path, 0 , deep);
-    else if(deep == -1){
-    tree(path , 0 , 150);}
-    else if (deep < -1 ){
-      printf("the depth you intered isn't valid :(\n");
-      return 0;
+    scanf("%d", &deep);
+    if (deep > 0)
+        tree(path, 0, deep);
+    else if (deep == -1)
+    {
+        tree(path, 0, 150);
+    }
+    else if (deep < -1)
+    {
+        printf("the depth you intered isn't valid :(\n");
+        return 0;
     }
     return 0;
 }
-void tree(char *basePath, const int root , int depth)
-{  
-    if(root >= depth*2 ){
-      return ;
+void tree(char *basePath, const int root, int depth)
+{
+    if (root >= depth * 2)
+    {
+        return;
     }
     int i;
     char path[1000];
@@ -2433,21 +2751,20 @@ void tree(char *basePath, const int root , int depth)
     {
         if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
         {
-            for (i=0; i<root; i++) 
+            for (i = 0; i < root; i++)
             {
-                if (i%2 == 0 || i == 0)
+                if (i % 2 == 0 || i == 0)
                     printf("%c", 179);
                 else
                     printf(" ");
-
             }
 
-            printf("%c%c%s\n", 195, 196 , dp->d_name);
+            printf("%c%c%s\n", 195, 196, dp->d_name);
 
             strcpy(path, basePath);
             strcat(path, "/");
             strcat(path, dp->d_name);
-            tree(path, root + 2 , depth);
+            tree(path, root + 2, depth);
         }
     }
 

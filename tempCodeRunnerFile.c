@@ -1,1 +1,1 @@
-fclose(af);
+printf("%s" , text7);
